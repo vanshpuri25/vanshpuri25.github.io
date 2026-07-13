@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vansh puri — data & ai</title>
+<meta name="description" content="Vansh Puri — Data & AI at Orange Business. National-scale pipelines at MeitY, DataOps at Mphasis, healthcare ML at OHSL. Narrated by CrazyPurii, the AI he built because his memory clocks out before he does.">
+<meta name="theme-color" content="#edf0ee">
+<style>
+  :root {
+    --bg: #edf0ee;
+    --surface: #ffffff;
+    --ink: #141a17;
+    --muted: #76817b;
+    --line: #dde3df;
+    --accent: #0d7d68;
+    --accent-deep: #0a5f50;
+    --term-bg: #10201b;
+    --term-ink: #cfe8e0;
+    --shadow: 0 1px 2px rgba(20,26,23,.05), 0 16px 40px -20px rgba(20,26,23,.18);
+    --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16.5px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 46px; /* room for trajectory bar */
+  }
+  ::selection { background: var(--accent); color: #fff; }
+  a { color: inherit; }
+
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 640px) { .wrap { padding: 0 18px; } }
+
+  .microtag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .32em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .microtag.teal { color: var(--accent); }
+
+  /* ============ top bar ============ */
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 18px 28px; pointer-events: none;
+  }
+  .topbar > * { pointer-events: auto; }
+  .brand {
+    text-decoration: none; display: block;
+    background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 18px;
+    padding: 10px 18px 12px; box-shadow: var(--shadow);
+  }
+  .brand .brand-name { font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+  .brand .microtag { display: block; margin-top: 3px; }
+  .navpill {
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px; box-shadow: var(--shadow);
+    max-width: calc(100vw - 36px); overflow-x: auto; scrollbar-width: none;
+  }
+  .navpill::-webkit-scrollbar { display: none; }
+  .navpill a, .navpill button {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
+    text-transform: uppercase; text-decoration: none; color: var(--muted);
+    padding: 9px 14px; border-radius: 999px; border: 0; background: none;
+    cursor: pointer; white-space: nowrap; transition: color .15s, background .15s;
+  }
+  .navpill a:hover { color: var(--ink); }
+  .navpill a.active { background: #e6ebe8; color: var(--ink); }
+  @media (max-width: 720px) {
+    .topbar { padding: 12px 12px; }
+    .brand { display: none; }
+    .navpill { margin-left: auto; padding: 5px; }
+    .navpill a { padding: 9px 11px; font-size: 10.5px; letter-spacing: .15em; }
+  }
+
+  /* ============ sections ============ */
+  section { padding: 110px 0 40px; scroll-margin-top: 84px; }
+  .sec-head { display: flex; align-items: baseline; gap: 22px; margin-bottom: 40px; flex-wrap: wrap; }
+  .sec-head .microtag.teal { letter-spacing: .4em; }
+  .sec-head p { color: var(--muted); max-width: 52ch; font-size: 15.5px; }
+
+  /* ============ hero ============ */
+  .hero { min-height: 96vh; display: flex; align-items: center; padding: 130px 0 60px; }
+  .hero-grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 56px; align-items: center; width: 100%; }
+  @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .hero h1 {
+    font-size: clamp(2.9rem, 7vw, 5.2rem);
+    font-weight: 800; letter-spacing: -.035em; line-height: 1.02;
+  }
+  .hero .typed-line {
+    display: block; margin-top: 18px;
+    font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+    font-weight: 500; letter-spacing: -.01em; color: var(--accent-deep);
+    min-height: 1.5em;
+  }
+  .caret { display: inline-block; width: 2px; height: 1.05em; background: var(--accent); vertical-align: -0.15em; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero .narrator {
+    margin-top: 26px; color: var(--muted); max-width: 54ch; font-size: 16px;
+  }
+  .hero .narrator b { color: var(--ink); font-weight: 650; }
+  .cta-row { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    padding: 13px 22px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--ink); box-shadow: var(--shadow);
+    transition: transform .15s, background .15s, color .15s, border-color .15s;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: var(--accent); color: var(--accent-deep); }
+  .btn.solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.solid:hover { background: var(--accent-deep); color: #fff; }
+
+  /* terminal */
+  .term {
+    background: var(--term-bg); border-radius: 16px; box-shadow: var(--shadow);
+    overflow: hidden; font-family: var(--mono); font-size: 13px; line-height: 1.8;
+  }
+  .term-head { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .term-head i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); }
+  .term-head .term-title { margin-left: auto; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: rgba(207,232,224,.4); }
+  .term-body { padding: 18px 20px 22px; min-height: 285px; color: var(--term-ink); }
+  .term-body .cmd { color: #8be3cd; }
+  .term-body .cmd::before { content: "$ "; color: rgba(207,232,224,.45); }
+  .term-body .out { color: rgba(207,232,224,.82); }
+  .term-body .out .hl { color: #ffd8a8; }
+  .term-body .typing::after { content: "▋"; color: #8be3cd; animation: blink 1s steps(1) infinite; }
+
+  /* ============ reveal ============ */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ============ work ============ */
+  .job {
+    display: grid; grid-template-columns: 150px 1fr; gap: 20px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 28px 30px; margin-bottom: 14px; box-shadow: var(--shadow);
+    transition: transform .18s, border-color .18s;
+  }
+  .job:hover { transform: translateY(-2px); border-color: var(--accent); }
+  @media (max-width: 680px) { .job { grid-template-columns: 1fr; gap: 8px; padding: 22px 20px; } }
+  .job .when { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); padding-top: 4px; }
+  .job .when .now {
+    display: inline-block; margin-top: 8px; font-size: 10px; letter-spacing: .24em;
+    color: var(--accent-deep); background: #e2efe9; border-radius: 999px; padding: 3px 10px;
+  }
+  @media (max-width: 680px) { .job .when .now { margin: 0 0 0 10px; } }
+  .job-top { display: flex; align-items: center; gap: 14px; }
+  .org-logo {
+    width: 46px; height: 46px; object-fit: contain; flex-shrink: 0;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 5px;
+  }
+  .edu-l { display: flex; align-items: center; gap: 12px; }
+  .edu-l .org-logo { width: 40px; height: 40px; border-radius: 10px; }
+  .job h3 { font-size: 1.12rem; font-weight: 750; letter-spacing: -.01em; }
+  .job h3 .org { color: var(--accent-deep); font-weight: 600; }
+  .job .where { color: var(--muted); font-size: 13px; margin-top: 2px; font-family: var(--mono); letter-spacing: .06em; }
+  .job ul { margin: 12px 0 0 18px; }
+  .job li { margin-bottom: 7px; font-size: 15.5px; color: color-mix(in srgb, var(--ink) 86%, var(--muted)); }
+  .job li::marker { color: var(--accent); }
+
+  /* ============ projects ============ */
+  .proj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .proj-grid { grid-template-columns: 1fr; } }
+  .proj {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    padding: 28px; box-shadow: var(--shadow); position: relative;
+    transition: transform .18s, border-color .18s;
+  }
+  .proj:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .proj.featured { grid-column: 1 / -1; }
+  @media (max-width: 760px) { .proj.featured { grid-column: auto; } }
+  a.proj { display: block; text-decoration: none; color: inherit; }
+  .proj-cover {
+    display: block; width: calc(100% + 56px); margin: -28px -28px 18px;
+    aspect-ratio: 16 / 9; object-fit: cover;
+    border-bottom: 1px solid var(--line);
+    border-radius: 17px 17px 0 0;
+  }
+  .proj.no-cover .proj-cover { display: none; }
+  .live-cta {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent-deep); border-bottom: 1.5px solid var(--accent); padding-bottom: 3px;
+  }
+  a.proj:hover .live-cta { color: var(--ink); }
+  .proj .yr { font-family: var(--mono); font-size: 11px; letter-spacing: .3em; color: var(--muted); }
+  .proj h3 { font-size: 1.25rem; font-weight: 750; letter-spacing: -.015em; margin: 8px 0 10px; }
+  .proj p { color: var(--muted); font-size: 15px; max-width: 72ch; }
+  .proj .tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; }
+
+  /* ============ about ============ */
+  .about-grid { display: grid; grid-template-columns: .95fr 1.05fr; gap: 56px; align-items: start; }
+  @media (max-width: 920px) { .about-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .about-left h2 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+  .about-left .roleline { margin-top: 14px; }
+  .about-left .bio { margin-top: 22px; color: var(--muted); max-width: 52ch; }
+  .about-left .bio b { color: var(--ink); font-weight: 650; }
+  .edu-block { margin-top: 34px; border-top: 1px solid var(--line); }
+  .edu { display: flex; justify-content: space-between; gap: 14px; align-items: baseline; padding: 15px 0; border-bottom: 1px dashed var(--line); flex-wrap: wrap; }
+  .edu h4 { font-size: .98rem; font-weight: 700; }
+  .edu .sub { color: var(--muted); font-size: 13.5px; }
+  .edu .score { font-family: var(--mono); color: var(--accent-deep); font-weight: 600; font-size: 14px; white-space: nowrap; }
+
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 480px) { .stats { grid-template-columns: 1fr 1fr; gap: 10px; } }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 22px 18px; box-shadow: var(--shadow);
+  }
+  .stat .num { font-size: clamp(1.9rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; color: var(--accent-deep); line-height: 1.1; }
+  .stat .lbl { font-family: var(--mono); font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 8px; line-height: 1.7; }
+  .manifesto {
+    grid-column: 1 / -1; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 26px 28px; box-shadow: var(--shadow);
+  }
+  .manifesto .microtag { display: block; margin-bottom: 12px; }
+  .manifesto p { font-size: 16.5px; line-height: 1.7; }
+
+  .skills-row { margin-top: 40px; }
+  .skills-row .microtag { display: block; margin-bottom: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+  .chips span { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 6px 14px; font-size: 14px; box-shadow: 0 1px 2px rgba(20,26,23,.04); }
+
+  .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
+  @media (max-width: 860px) { .cert-grid { grid-template-columns: 1fr; } }
+  .cert-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); }
+  .cert-card h4 { font-family: var(--mono); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--accent-deep); margin-bottom: 10px; }
+  .cert-card p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+  /* ============ avatar ============ */
+  .avatar-stage {
+    position: relative; width: 280px; margin: 0 0 36px;
+    cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+    perspective: 700px;
+  }
+  #avatar-card { transition: transform .25s ease; transform-style: preserve-3d; will-change: transform; }
+  #avatar-card img {
+    display: block; width: 100%; height: auto;
+    animation: floaty 5.5s ease-in-out infinite;
+    filter: drop-shadow(0 26px 26px rgba(20,26,23,.2));
+  }
+  @keyframes floaty { 50% { transform: translateY(-8px); } }
+  @media (max-width: 920px) { .avatar-stage { margin: 0 auto 30px; } }
+  .avatar-bubble {
+    position: absolute; top: 4px; left: 74%; white-space: nowrap; z-index: 2;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 15px; box-shadow: var(--shadow);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--accent-deep);
+  }
+  .avatar-bubble::after {
+    content: ""; position: absolute; left: 16px; bottom: -5.5px; width: 9px; height: 9px;
+    background: var(--surface); border-left: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    transform: rotate(-45deg);
+  }
+  @media (max-width: 640px) {
+    .avatar-bubble { left: auto; right: -6px; }
+    .avatar-bubble::after { left: auto; right: 26px; }
+  }
+  /* ============ field notes ============ */
+  .photo-cols { columns: 3 260px; column-gap: 16px; }
+  .photo {
+    display: inline-block; width: 100%; margin: 0 0 16px; break-inside: avoid;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+    overflow: hidden; box-shadow: var(--shadow);
+  }
+  .photo img { width: 100%; display: block; cursor: zoom-in; }
+  .photo .ph-cap { padding: 13px 16px 15px; }
+  .photo .ph-cap .microtag { display: block; font-size: 10px; margin-bottom: 5px; color: var(--accent-deep); }
+  .photo .ph-cap p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+  .photo .ph-fallback { display: none; }
+  .photo.missing img { display: none; }
+  .photo.missing .ph-fallback {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    aspect-ratio: 4 / 3; margin: 14px 14px 0; border: 1.5px dashed var(--line); border-radius: 12px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .12em; line-height: 2;
+    color: var(--muted); padding: 12px;
+  }
+  .lightbox {
+    position: fixed; inset: 0; z-index: 80; background: rgba(14,24,20,.93);
+    display: none; align-items: center; justify-content: center; flex-direction: column;
+    gap: 16px; padding: 30px; cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: min(1020px, 92vw); max-height: 80vh; border-radius: 14px; box-shadow: 0 30px 90px rgba(0,0,0,.5); }
+  .lightbox .lb-cap { font-family: var(--mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: #cfe8e0; text-align: center; }
+
+  /* ============ contact ============ */
+  .contact { text-align: center; padding-bottom: 120px; }
+  .contact h2 { font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; margin: 18px 0 10px; }
+  .contact .sub { color: var(--muted); max-width: 46ch; margin: 0 auto; }
+  .contact .bigmail {
+    display: inline-block; margin-top: 34px; text-decoration: none;
+    font-family: var(--mono); font-size: clamp(1rem, 3.2vw, 1.7rem); letter-spacing: .02em;
+    color: var(--accent-deep); border-bottom: 2px solid var(--accent);
+    padding-bottom: 6px; transition: color .15s;
+  }
+  .contact .bigmail:hover { color: var(--ink); }
+  .contact .cta-row { justify-content: center; margin-top: 30px; }
+  .contact .fine { margin-top: 60px; color: var(--muted); font-size: 12.5px; font-family: var(--mono); letter-spacing: .12em; }
+
+  /* ============ trajectory bar ============ */
+  .traj {
+    position: fixed; inset: auto 0 0 0; z-index: 40; height: 46px;
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(237,240,238,.88); backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line); padding: 0 22px;
+  }
+  .traj .microtag { flex-shrink: 0; }
+  .marquee { flex: 1; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .marquee-track { display: inline-flex; white-space: nowrap; width: max-content; animation: scroll 38s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+  .marquee-track span { font-family: var(--mono); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); padding-right: 46px; }
+  .marquee-track span b { color: var(--ink); font-weight: 600; }
+  .marquee-track span.lead { color: var(--accent-deep); font-weight: 600; }
+  .traj .clock { flex-shrink: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: var(--muted); }
+  @media (max-width: 640px) { .traj .clock { display: none; } .traj .microtag { display: none; } }
+
+  /* ============ chat ============ */
+  .chat-fab {
+    position: fixed; right: 20px; bottom: 66px; z-index: 60;
+    width: 54px; height: 54px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--accent); color: #fff; box-shadow: 0 10px 30px -8px rgba(13,125,104,.55);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .18s, background .18s;
+  }
+  .chat-fab:hover { transform: translateY(-2px); background: var(--accent-deep); }
+  .chat-fab svg { width: 22px; height: 22px; fill: currentColor; }
+  .chat-fab .ic-close { display: none; }
+  .chat-fab.open .ic-chat { display: none; }
+  .chat-fab.open .ic-close { display: block; }
+
+  .chat-panel {
+    position: fixed; right: 20px; bottom: 132px; z-index: 60;
+    width: min(400px, calc(100vw - 40px)); height: min(540px, 66vh);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: 0 24px 70px -20px rgba(20,26,23,.35);
+    display: flex; flex-direction: column; overflow: hidden;
+    opacity: 0; transform: translateY(14px) scale(.98); pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease;
+  }
+  .chat-panel.open { opacity: 1; transform: none; pointer-events: auto; }
+  .chat-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+  .chat-head .avatar {
+    width: 36px; height: 36px; border-radius: 12px; background: var(--term-bg);
+    color: #8be3cd; font-family: var(--mono); font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .chat-head .who .nm { font-weight: 750; font-size: 14.5px; letter-spacing: -.01em; }
+  .chat-head .who .st { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-deep); }
+  .chat-head .who .st::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 7px; animation: blink 2s steps(1) infinite; }
+  .chat-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 88%; padding: 11px 15px; border-radius: 16px; font-size: 14.5px; line-height: 1.6; }
+  .msg.bot { background: #eef2f0; border-bottom-left-radius: 6px; align-self: flex-start; }
+  .msg.user { background: var(--accent); color: #fff; border-bottom-right-radius: 6px; align-self: flex-end; }
+  .msg .msg-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .msg .msg-links a {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-decoration: none;
+    color: var(--accent-deep); border: 1px solid var(--accent); border-radius: 999px; padding: 5px 13px;
+  }
+  .msg .msg-links a:hover { background: var(--accent); color: #fff; }
+  .typing-dots { display: inline-flex; gap: 4px; align-items: center; padding: 4px 2px; }
+  .typing-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); animation: bob 1s ease-in-out infinite; }
+  .typing-dots i:nth-child(2) { animation-delay: .15s; }
+  .typing-dots i:nth-child(3) { animation-delay: .3s; }
+  @keyframes bob { 40% { transform: translateY(-4px); opacity: .5; } }
+  .chat-chips { padding: 12px 16px 16px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 7px; }
+  .chat-chips button {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 13px; cursor: pointer; color: var(--ink);
+    transition: border-color .15s, background .15s;
+  }
+  .chat-chips button:hover { border-color: var(--accent); background: #e2efe9; }
+  .chat-chips button:disabled { opacity: .45; cursor: default; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .marquee-track { animation: none; }
+    .marquee { overflow-x: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .caret, .term-body .typing::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======= top bar ======= -->
+<div class="topbar">
+  <a class="brand" href="#hello">
+    <span class="brand-name">Vansh Puri</span>
+    <span class="microtag">DATA &amp; AI&nbsp;&nbsp;·&nbsp;&nbsp;NEW DELHI</span>
+  </a>
+  <nav class="navpill" id="navpill">
+    <a href="#hello" data-spy="hello">Home</a>
+    <a href="#work" data-spy="work">Work</a>
+    <a href="#projects" data-spy="projects">Projects</a>
+    <a href="#about" data-spy="about">About</a>
+    <a href="#moments" data-spy="moments">Field Notes</a>
+    <a href="#contact" data-spy="contact">Contact</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+  <!-- ======= 01 hello ======= -->
+  <section class="hero" id="hello">
+    <div class="hero-grid">
+      <div>
+        <div class="microtag teal" style="margin-bottom:20px;">01&nbsp;&nbsp;/&nbsp;&nbsp;HELLO</div>
+        <h1>Vansh Puri
+          <span class="typed-line"><span id="typed"></span><span class="caret" id="typed-caret"></span></span>
+        </h1>
+        <p class="narrator">
+          I'm <b>CrazyPurii</b> — the AI Vansh built because his memory clocks out before he does.
+          He's in <b>Data &amp; AI at Orange Business</b>; before that, national-scale pipelines
+          for the Ministry of Electronics &amp; IT. Right now he's probably arguing with CapCut
+          over an edit — so the questions come to me.
+        </p>
+        <div class="cta-row">
+          <button class="btn solid" data-chat-toggle>Talk to me</button>
+          <a class="btn" href="#work">See the work</a>
+        </div>
+      </div>
+      <div class="term reveal">
+        <div class="term-head"><i></i><i></i><i></i><span class="term-title">crazypurii @ archive</span></div>
+        <div class="term-body" id="term-body"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 02 work ======= -->
+  <section id="work">
+    <div class="sec-head">
+      <span class="microtag teal">02&nbsp;&nbsp;/&nbsp;&nbsp;WORK</span>
+      <p>Five stops so far — government, enterprise, healthcare, web. The pattern holds: messy records in, decisions out.</p>
+    </div>
+
+    <div class="job reveal">
+      <div class="when">JUL 2026 — PRESENT <span class="now">CURRENT</span></div>
+      <div>
+        <div class="job-top">
+          <img class="org-logo" src="photos/orange.png?v=2" alt="Orange Business logo" loading="lazy">
+          <div>
+            <h3>Data &amp; AI <span class="org">· Orange Business</span></h3>
+            <div class="where">ENTERPRISE · DATA &amp; AI PRACTICE</div>
+          </div>
+        </div>
+        <ul>
+          <li>Working within Orange Business's data and AI practice on enterprise-scale analytics and intelligent automation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="when">JAN 2026 — JUL 2026</div>
+      <div>
+        <div class="job-top">
+          <img class="org-logo" src="photos/meity.jpg?v=2" alt="Ministry of Electronics and IT logo" loading="lazy">
+          <div>
+            <h3>Technical Intern <span class="org">· National e-Governance Division, MeitY</span></h3>
+            <div class="where">MINISTRY OF ELECTRONICS &amp; IT — NEW DELHI</div>
+          </div>
+        </div>
+        <ul>
+          <li>Ran exploratory and predictive analysis on 35,000+ government records, producing 15+ insights that fed into MeitY's digital infrastructure strategy.</li>
+          <li>Built analytics-ready pipelines with ML-based feature engineering across 8+ national datasets — reporting turnaround down ~30%, policy decisions supported at scale.</li>
+          <li>Organising head for the AI Impact Summit 2026, New Delhi — on the ground running sessions and coordination for India's flagship global AI gathering.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="when">MAY 2025 — SEP 2025</div>
+      <div>
+        <div class="job-top">
+          <img class="org-logo" src="photos/mphasis.png?v=2" alt="Mphasis logo" loading="lazy">
+          <div>
+            <h3>AI DataOps Intern <span class="org">· Mphasis</span></h3>
+            <div class="where">BENGALURU, KARNATAKA</div>
+          </div>
+        </div>
+        <ul>
+          <li>Shipped drift detection, monitoring and automated retraining — prediction accuracy up ~25%, manual oversight down.</li>
+          <li>Designed and optimised 50+ automated ETL pipelines in Python and PySpark — processing ~40% faster, cloud costs ~20% lower.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="when">MAY 2024 — JUL 2024</div>
+      <div>
+        <div class="job-top">
+          <img class="org-logo" src="photos/ohsl.jpg?v=2" alt="Open Health Systems Laboratory logo" loading="lazy">
+          <div>
+            <h3>AI Digital Twin Intern <span class="org">· Open Health Systems Laboratory</span></h3>
+            <div class="where">NOIDA, UTTAR PRADESH</div>
+          </div>
+        </div>
+        <ul>
+          <li>Engineered end-to-end ML pipelines over 1,000+ patient datasets with Python and PySpark — integration time halved, predictive accuracy up ~25% via real-time drift detection and retraining.</li>
+          <li>Validated model outputs with 5+ clinicians, directly supporting two research papers in development.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job reveal">
+      <div class="when">MAY 2023 — JUL 2023</div>
+      <div>
+        <div class="job-top">
+          <img class="org-logo" src="photos/jabsz_studio_logo.jpg?v=2" alt="Jabsz Studio logo" loading="lazy">
+          <div>
+            <h3>Web Development Intern <span class="org">· Jabsz Studio</span></h3>
+            <div class="where">REMOTE</div>
+          </div>
+        </div>
+        <ul>
+          <li>Optimised 13 web pages through caching and front-end refactoring — page load time down ~30%.</li>
+          <li>Shipped responsive, accessible web apps with design, QA and product teams.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 03 projects ======= -->
+  <section id="projects">
+    <div class="sec-head">
+      <span class="microtag teal">03&nbsp;&nbsp;/&nbsp;&nbsp;PROJECTS</span>
+      <p>Dashboards in production, agents that talk, models that forecast — some of it live right now. The linked ones open in a new tab.</p>
+    </div>
+    <div class="proj-grid">
+      <a class="proj featured reveal" href="https://app.powerbi.com/view?r=eyJrIjoiM2NkMGIyYmMtOTI5Yy00YzEzLTllNTItMDM1NjdiNjQyMGVmIiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
+        <img class="proj-cover" src="photos/proj-family-care.jpg" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <div class="yr">POWER BI · LIVE</div>
+        <h3>Pradhan Mantri Family Care Tracker Pilot Project Dashboard</h3>
+        <p>Interactive Power BI dashboard built for the Pradhan Mantri Family Care Tracker pilot project — published and publicly viewable.</p>
+        <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Gov Analytics</span></div>
+        <span class="live-cta">Open dashboard ↗</span>
+      </a>
+      <a class="proj reveal" href="https://app.powerbi.com/view?r=eyJrIjoiZWMyZjNmM2UtMjNkYS00OTBiLWE4NDUtZTFmYWU4ZTcxMjg4IiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
+        <img class="proj-cover" src="photos/proj-hr.jpg" alt="HR Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <div class="yr">POWER BI · LIVE</div>
+        <h3>HR Dashboard</h3>
+        <p>Workforce analytics in Power BI — headcount, attrition and hiring trends in one interactive view.</p>
+        <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">HR Analytics</span></div>
+        <span class="live-cta">Open dashboard ↗</span>
+      </a>
+      <a class="proj reveal" href="https://lnkd.in/gjsDMtdp" target="_blank" rel="noopener">
+        <img class="proj-cover" src="photos/proj-mospi.jpg" alt="Governance Dashboard for Ministry of Statistics and Programme Implementation cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <div class="yr">POWER BI · LIVE</div>
+        <h3>Governance Dashboard for Ministry of Statistics and Programme Implementation</h3>
+        <p>Governance analytics for MoSPI — programme implementation metrics, tracked end-to-end.</p>
+        <div class="tags"><span class="tag">Power BI</span><span class="tag">Gov Analytics</span><span class="tag">MoSPI</span></div>
+        <span class="live-cta">Open dashboard ↗</span>
+      </a>
+      <div class="proj featured reveal">
+        <div class="yr">2025</div>
+        <h3>Agentic Reconciliation System</h3>
+        <p>An AI agent that autonomously compares structured datasets and flags discrepancies — built with OpenAI GPT and LlamaIndex. Processes 10,000+ records at ~95% detection accuracy, cutting manual reconciliation by ~60%.</p>
+        <div class="tags"><span class="tag">OpenAI GPT</span><span class="tag">LlamaIndex</span><span class="tag">Pandas</span><span class="tag">Agents</span></div>
+      </div>
+      <div class="proj reveal">
+        <div class="yr">2025</div>
+        <h3>Crypto Price Prediction</h3>
+        <p>Time-series forecasting of cryptocurrency prices using LSTM and ARIMA models — strong predictive accuracy for financial forecasting and trading use cases.</p>
+        <div class="tags"><span class="tag">LSTM</span><span class="tag">ARIMA</span><span class="tag">Time Series</span></div>
+      </div>
+      <div class="proj reveal">
+        <div class="yr">2024</div>
+        <h3>Handwriting Recognition</h3>
+        <p>A CNN trained on 60,000+ MNIST images with TensorFlow and Keras — ~98% classification accuracy, built for real-time image recognition.</p>
+        <div class="tags"><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">CNN</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 04 about ======= -->
+  <section id="about">
+    <div class="sec-head">
+      <span class="microtag teal">04&nbsp;&nbsp;/&nbsp;&nbsp;ABOUT</span>
+      <p>The human behind the pipelines — as reconstructed from his own records.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="avatar-stage" id="avatar-stage">
+          <div class="avatar-bubble" id="avatar-bubble">meet the human</div>
+          <div id="avatar-card">
+            <img src="photos/avatar.png?v=3" alt="3D avatar of Vansh Puri in a light blue shirt, holding a holographic tablet">
+          </div>
+        </div>
+        <h2>The data behind<br>the human.</h2>
+        <div class="roleline microtag teal">BUILDER · DATA &amp; AI · ORANGE BUSINESS</div>
+        <p class="bio">
+          B.Tech CSE with <b>Honors in Data Science &amp; Analytics</b> from Amity University.
+          Four internships across government, enterprise, healthcare and web —
+          plus two years coordinating placement drives for his whole campus.
+          He speaks <b>four languages</b>; I only speak SQL and JSON, so he wins there.
+        </p>
+        <div class="edu-block">
+          <div class="edu">
+            <div class="edu-l">
+              <img class="org-logo" src="photos/amity.jpg?v=2" alt="Amity University logo" loading="lazy">
+              <div>
+                <h4>Amity University, Noida</h4>
+                <div class="sub">B.Tech CSE — Honors in Data Science &amp; Analytics</div>
+              </div>
+            </div>
+            <div class="score">8.31 CGPA</div>
+          </div>
+          <div class="edu">
+            <div class="edu-l">
+              <img class="org-logo" src="photos/krm.jpg?v=2" alt="KR Mangalam World School logo" loading="lazy">
+              <div>
+                <h4>KR Mangalam World School, GK2</h4>
+                <div class="sub">AISSCE — Class XII</div>
+              </div>
+            </div>
+            <div class="score">86.25%</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="microtag" style="display:block;margin-bottom:14px;">BY THE NUMBERS</div>
+        <div class="stats">
+          <div class="stat reveal"><div class="num"><span data-count="35" data-suffix="K+">0</span></div><div class="lbl">Gov records analysed — NeGD · MeitY</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="50" data-suffix="+">0</span></div><div class="lbl">ETL pipelines automated — Mphasis</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="95" data-suffix="%">0</span></div><div class="lbl">Discrepancy detection — recon agent</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="98" data-prefix="~" data-suffix="%">0</span></div><div class="lbl">MNIST accuracy — CNN, 60K images</div></div>
+          <div class="manifesto reveal">
+            <span class="microtag teal">MANIFESTO</span>
+            <p>When he isn't building pipelines for the systems governments run on, he's pulling apart datasets nobody else wants to touch — reconciling, labelling, tidying — because an unclean record offends him personally. I'm what that habit looks like once it gets an API.</p>
+          </div>
+        </div>
+        <div class="skills-row reveal">
+          <span class="microtag">STACK</span>
+          <div class="chips">
+            <span>Python</span><span>PySpark</span><span>SQL</span><span>Java</span><span>R</span><span>C</span>
+            <span>TensorFlow</span><span>AWS</span><span>LlamaIndex</span><span>Power BI</span>
+          </div>
+          <span class="microtag">HUMAN LANGUAGES</span>
+          <div class="chips"><span>English</span><span>Hindi</span><span>French</span><span>German</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cert-grid" style="margin-top:48px;">
+      <div class="cert-card reveal">
+        <h4>Technical &amp; Analytical</h4>
+        <p>IBM (Data Science) · IIT Madras (Python) · Google &amp; Deloitte (Data Analytics) · PwC (Power BI) · Cisco (Python Essentials) · Tata (Cybersecurity, Data Viz) · Accenture (Software Engineering) · ServiceNow</p>
+      </div>
+      <div class="cert-card reveal">
+        <h4>Business &amp; Strategy</h4>
+        <p>Wharton (Entrepreneurship) · SAP (Technical Consulting) · Goldman Sachs (Operations) · Latham &amp; Watkins</p>
+      </div>
+      <div class="cert-card reveal">
+        <h4>Leadership &amp; Communication</h4>
+        <p>McKinsey (Forward) · BCG (Strategy &amp; UX) · KPMG (Career Analyst) · Google (Digital Marketing) · Technical Communication for Engineers</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= 05 field notes ======= -->
+  <section id="moments">
+    <div class="sec-head">
+      <span class="microtag teal">05&nbsp;&nbsp;/&nbsp;&nbsp;FIELD NOTES</span>
+      <p>Records the pipelines don't capture — pulled straight from his camera roll.</p>
+    </div>
+    <div class="photo-cols">
+      <figure class="photo reveal">
+        <img src="photos/meity-joining.jpg" alt="Vansh outside Electronics Niketan, MeitY headquarters, New Delhi" data-cap="ELECTRONICS NIKETAN · JOINING DAY — NEGD, MEITY" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop photos/meity-joining.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">JAN 2026 · NEW DELHI</span>
+          <p>Day one at MeitY headquarters. The shirt was ironed. The records, famously, were not.</p>
+        </figcaption>
+      </figure>
+      <figure class="photo reveal">
+        <img src="photos/negd-office.jpg" alt="The NeGD office floor with the logo on a brick wall" data-cap="NEGD FLOOR · MEITY — NEW DELHI" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop photos/negd-office.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">NEGD · MEITY</span>
+          <p>The NeGD floor — 35,000 government records were thoroughly interrogated between these walls. The wall talked first.</p>
+        </figcaption>
+      </figure>
+      <figure class="photo reveal">
+        <img src="photos/summit-panel.jpg" alt="Panel session at the AI Impact Summit with the organising team standing" data-cap="AI IMPACT SUMMIT · PANEL SESSIONS" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop photos/summit-panel.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">SUMMIT · PANELS</span>
+          <p>Scientists, CISOs and ministries in one room — and not a single session ran late. You're welcome, Bharat.</p>
+        </figcaption>
+      </figure>
+      <figure class="photo reveal">
+        <img src="photos/summit-badge.jpg" alt="Vansh with a lanyard in front of AI Impact Summit banners" data-cap="AI IMPACT SUMMIT · SHOW DAY" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop photos/summit-badge.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">SUMMIT · SHOW DAY</span>
+          <p>Flag day at the AI Impact Summit — half the world's AI policy flew in, and somebody had to keep it on schedule.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ======= 06 contact ======= -->
+  <section class="contact" id="contact">
+    <span class="microtag teal">06&nbsp;&nbsp;/&nbsp;&nbsp;CONTACT</span>
+    <h2>Let's keep the<br>records straight.</h2>
+    <p class="sub">Open to conversations about data, ML and AI work. He replies quick — unless CapCut is winning the argument.</p>
+    <a class="bigmail" href="mailto:vanshpuri.tech@gmail.com">vanshpuri.tech@gmail.com</a>
+    <div class="cta-row">
+      <a class="btn" href="https://linkedin.com/in/vanshpuri25/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="btn" href="tel:+918527611335">+91 85276 11335</a>
+    </div>
+    <div class="fine">© <span id="yr"></span> VANSH PURI · NEW DELHI · NARRATED BY CRAZYPURII</div>
+  </section>
+
+</div>
+
+<!-- ======= trajectory bar ======= -->
+<div class="traj">
+  <span class="microtag">TRAJECTORY</span>
+  <div class="marquee">
+    <div class="marquee-track" id="marquee-track">
+      <span class="lead">JUST A VIDEO CONTENT EDITOR WHO STARTED FOCUSING ON NUMBERS:</span>
+      <span><b>2023</b> JABSZ STUDIO · WEB</span>
+      <span><b>2024</b> OHSL · DIGITAL TWIN</span>
+      <span><b>2025</b> MPHASIS · AI DATAOPS</span>
+      <span><b>2026</b> NEGD · MEITY</span>
+      <span><b>2026</b> AI IMPACT SUMMIT · ORG HEAD</span>
+      <span><b>2026</b> ORANGE BUSINESS · DATA &amp; AI</span>
+      <span>DATA BY DAY · CAPCUT BY NIGHT</span>
+    </div>
+  </div>
+  <span class="clock" id="clock">NEW DELHI —:—:—</span>
+</div>
+
+<!-- ======= chat ======= -->
+<button class="chat-fab" id="chat-fab" data-chat-toggle aria-label="Toggle chat with CrazyPurii">
+  <svg class="ic-chat" viewBox="0 0 24 24"><path d="M12 3C6.9 3 3 6.6 3 11c0 2.2 1 4.2 2.6 5.6L5 21l4.2-1.6c.9.3 1.8.4 2.8.4 5.1 0 9-3.6 9-8.4S17.1 3 12 3z"/></svg>
+  <svg class="ic-close" viewBox="0 0 24 24"><path d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4L12 13.4 6.4 19 5 17.6 10.6 12 5 6.4z"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Chat with CrazyPurii">
+  <div class="chat-head">
+    <div class="avatar">C</div>
+    <div class="who">
+      <div class="nm">CrazyPurii</div>
+      <div class="st">online — remembering for him</div>
+    </div>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chat-chips" id="chat-chips"></div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lb-img" src="" alt="Enlarged photo">
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<script>
+(function () {
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+
+  /* ---------- footer year ---------- */
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- IST clock ---------- */
+  var clockEl = document.getElementById('clock');
+  var fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  function tick() { clockEl.textContent = 'NEW DELHI ' + fmt.format(new Date()) + ' IST'; }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- seamless marquee loop ---------- */
+  var mtrack = document.getElementById('marquee-track');
+  if (mtrack) mtrack.innerHTML += mtrack.innerHTML;
+
+  /* ---------- typed hero line ---------- */
+  var typedEl = document.getElementById('typed');
+  var typedText = 'turning messy records into decisions people trust.';
+  async function typeHero() {
+    if (RM) { typedEl.textContent = typedText; return; }
+    await sleep(500);
+    for (var i = 0; i < typedText.length; i++) {
+      typedEl.textContent += typedText[i];
+      await sleep(26 + Math.random() * 24);
+    }
+  }
+  typeHero();
+
+  /* ---------- terminal ---------- */
+  var TERM_LINES = [
+    { cls: 'cmd', text: 'whoami' },
+    { cls: 'out', text: 'vansh puri — data & ai engineer' },
+    { cls: 'cmd', text: 'current' },
+    { cls: 'out', text: 'orange business · <span class="hl">jul 2026 → present</span>' },
+    { cls: 'cmd', text: 'history | tail -4' },
+    { cls: 'out', text: '2026&nbsp; meity · negd — technical intern' },
+    { cls: 'out', text: '2025&nbsp; mphasis — ai dataops' },
+    { cls: 'out', text: '2024&nbsp; ohsl — healthcare digital twin' },
+    { cls: 'out', text: '2023&nbsp; jabsz studio — web dev' },
+    { cls: 'cmd', text: 'motto' },
+    { cls: 'out', text: '"clean data. honest numbers."' }
+  ];
+  var termBody = document.getElementById('term-body');
+  async function runTerm() {
+    await sleep(900);
+    for (var i = 0; i < TERM_LINES.length; i++) {
+      var line = TERM_LINES[i];
+      var div = document.createElement('div');
+      div.className = line.cls;
+      termBody.appendChild(div);
+      if (RM) { div.innerHTML = line.text; continue; }
+      if (line.cls === 'cmd') {
+        div.classList.add('typing');
+        for (var c = 0; c < line.text.length; c++) {
+          div.textContent += line.text[c];
+          await sleep(38 + Math.random() * 40);
+        }
+        div.classList.remove('typing');
+        await sleep(160);
+      } else {
+        div.innerHTML = line.text;
+        await sleep(90);
+      }
+    }
+  }
+  runTerm();
+
+  /* ---------- scroll reveal ---------- */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { revealObs.observe(el); });
+
+  /* ---------- count-up stats ---------- */
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    if (RM) { el.textContent = prefix + target + suffix; return; }
+    var start = null, dur = 1300;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var countObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { animateCount(e.target); countObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach(function (el) { countObs.observe(el); });
+
+  /* ---------- scrollspy ---------- */
+  var spyLinks = {};
+  document.querySelectorAll('[data-spy]').forEach(function (a) { spyLinks[a.getAttribute('data-spy')] = a; });
+  var spyObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        Object.keys(spyLinks).forEach(function (k) { spyLinks[k].classList.remove('active'); });
+        var link = spyLinks[e.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  document.querySelectorAll('section[id]').forEach(function (s) { spyObs.observe(s); });
+
+  /* ---------- avatar ---------- */
+  var stage = document.getElementById('avatar-stage');
+  if (stage) {
+    var card = document.getElementById('avatar-card');
+    var bubble = document.getElementById('avatar-bubble');
+    var BUBBLE_DEFAULT = 'meet the human';
+    var HELLOS = ['namaste!', 'hello!', 'bonjour!', 'hallo!'];
+    var hi = 0, bubbleTimer = null;
+
+    if (!RM && card) {
+      var tiltRaf = null, lastEvt = null;
+      stage.addEventListener('mousemove', function (e) {
+        lastEvt = e;
+        if (tiltRaf) return;
+        tiltRaf = requestAnimationFrame(function () {
+          tiltRaf = null;
+          var r = stage.getBoundingClientRect();
+          var px = (lastEvt.clientX - r.left) / r.width - 0.5;
+          var py = (lastEvt.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'rotateY(' + (px * 16).toFixed(2) + 'deg) rotateX(' + (-py * 10).toFixed(2) + 'deg) scale(1.03)';
+        });
+      });
+      stage.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    }
+
+    stage.addEventListener('click', function () {
+      if (bubble) {
+        bubble.textContent = HELLOS[hi % HELLOS.length];
+        hi++;
+        clearTimeout(bubbleTimer);
+        bubbleTimer = setTimeout(function () { bubble.textContent = BUBBLE_DEFAULT; }, 2000);
+      }
+    });
+  }
+
+  /* ---------- lightbox ---------- */
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCap = document.getElementById('lb-cap');
+  document.querySelectorAll('.photo img').forEach(function (img) {
+    img.addEventListener('click', function () {
+      lbImg.src = img.src;
+      lbCap.textContent = img.getAttribute('data-cap') || '';
+      lb.classList.add('open');
+    });
+  });
+  lb.addEventListener('click', function () { lb.classList.remove('open'); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') lb.classList.remove('open');
+  });
+
+  /* ---------- chat ---------- */
+  var panel = document.getElementById('chat-panel');
+  var fab = document.getElementById('chat-fab');
+  var body = document.getElementById('chat-body');
+  var chipsBox = document.getElementById('chat-chips');
+  var greeted = false, busy = false;
+
+  var FLOWS = [
+    {
+      q: 'what does he do?',
+      a: "Vansh is in the Data & AI practice at Orange Business — joined July 2026, still there. Before that he ran predictive analysis on 35,000+ records for MeitY's National e-Governance Division. The pattern on his file: hand him messy data, get back a pipeline and a decision. I keep the file — someone here has to."
+    },
+    {
+      q: 'show me the numbers',
+      a: "The ledger: 35,000+ government records analysed · 50+ ETL pipelines automated · ~25% accuracy lift from drift detection · ~98% on MNIST · 8.31 CGPA · 20+ certifications · 4 human languages. I remember all of this so he doesn't have to."
+    },
+    {
+      q: 'what has he built?',
+      a: "Live Power BI dashboards you can open from the Projects section — the Pradhan Mantri Family Care Tracker Pilot Project Dashboard, an HR Dashboard, and a Governance Dashboard for the Ministry of Statistics and Programme Implementation. Plus an agentic reconciliation system (~95% detection accuracy), a crypto forecaster (LSTM + ARIMA), and a CNN reading handwriting at ~98%."
+    },
+    {
+      q: 'tell me about the summit',
+      a: "2026, New Delhi — the AI Impact Summit, India's flagship global AI gathering under MeitY. Vansh was an organising head: sessions, panels, logistics, dignitaries, all herded on schedule for a week. Evidence lives in the Field Notes section — he's the one in the suit who still looks rested."
+    },
+    {
+      q: 'is he open to opportunities?',
+      a: "He's settled in at Orange Business, but interesting conversations about data and AI work always get a reply — usually before CapCut finishes exporting.",
+      links: [
+        { label: 'vanshpuri.tech@gmail.com', href: 'mailto:vanshpuri.tech@gmail.com' },
+        { label: 'LinkedIn ↗', href: 'https://linkedin.com/in/vanshpuri25/' }
+      ]
+    },
+    {
+      q: 'something human, please',
+      a: "Off the clock: he coordinated placement drives for his entire campus for two years, switches between English, Hindi, French and German mid-sentence, and collects certifications the way other people collect stamps. And once work's over? He's arguing with CapCut over an edit for the next 45 minutes. I exist because his memory clocks out before he does — his words, not mine."
+    }
+  ];
+
+  function addMsg(who, text) {
+    var div = document.createElement('div');
+    div.className = 'msg ' + who;
+    if (text) div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    return div;
+  }
+
+  function addDots() {
+    var div = addMsg('bot');
+    div.innerHTML = '<span class="typing-dots"><i></i><i></i><i></i></span>';
+    return div;
+  }
+
+  async function typeInto(el, text) {
+    if (RM) { el.textContent = text; body.scrollTop = body.scrollHeight; return; }
+    el.textContent = '';
+    for (var i = 0; i < text.length; i++) {
+      el.textContent += text[i];
+      if (i % 3 === 0) body.scrollTop = body.scrollHeight;
+      await sleep(9);
+    }
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function renderChips() {
+    chipsBox.innerHTML = '';
+    FLOWS.forEach(function (f) {
+      var b = document.createElement('button');
+      b.textContent = f.q;
+      b.disabled = busy;
+      b.addEventListener('click', function () { ask(f); });
+      chipsBox.appendChild(b);
+    });
+  }
+
+  async function ask(flow) {
+    if (busy) return;
+    busy = true; renderChips();
+    addMsg('user', flow.q);
+    var dots = addDots();
+    await sleep(RM ? 60 : 650 + Math.random() * 450);
+    dots.innerHTML = '';
+    await typeInto(dots, flow.a);
+    if (flow.links) {
+      var row = document.createElement('span');
+      row.className = 'msg-links';
+      flow.links.forEach(function (l) {
+        var a = document.createElement('a');
+        a.href = l.href; a.textContent = l.label;
+        if (l.href.indexOf('http') === 0) { a.target = '_blank'; a.rel = 'noopener'; }
+        row.appendChild(a);
+      });
+      dots.appendChild(row);
+      body.scrollTop = body.scrollHeight;
+    }
+    busy = false; renderChips();
+  }
+
+  async function greet() {
+    if (greeted) return;
+    greeted = true;
+    busy = true; renderChips();
+    var dots = addDots();
+    await sleep(RM ? 60 : 700);
+    dots.innerHTML = '';
+    await typeInto(dots, "Hey — I'm CrazyPurii. Why do I exist? Because Vansh's memory clocks out before he does... and once work's over, he's probably busy arguing with CapCut over an edit for the next 45 minutes. So the questions come to me — ask away.");
+    busy = false; renderChips();
+  }
+
+  function toggleChat(force) {
+    var open = typeof force === 'boolean' ? force : !panel.classList.contains('open');
+    panel.classList.toggle('open', open);
+    fab.classList.toggle('open', open);
+    if (open) greet();
+  }
+
+  document.querySelectorAll('[data-chat-toggle]').forEach(function (el) {
+    el.addEventListener('click', function () { toggleChat(); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!panel.classList.contains('open')) return;
+    if (panel.contains(e.target)) return;
+    if (e.target.closest && e.target.closest('[data-chat-toggle]')) return;
+    toggleChat(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') toggleChat(false);
+  });
+
+  renderChips();
+})();
+</script>
+
+</body>
+</html>
