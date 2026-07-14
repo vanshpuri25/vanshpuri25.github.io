@@ -52,18 +52,39 @@
   }
   .topbar > * { pointer-events: auto; }
   .brand {
-    text-decoration: none; display: block;
-    background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
-    border: 1px solid var(--line); border-radius: 18px;
-    padding: 10px 18px 12px; box-shadow: var(--shadow);
+    text-decoration: none; display: block; position: relative;
+    background: rgba(255,255,255,.08);
+    -webkit-backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
+    backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
+    backdrop-filter: url(#liquid-glass);
+    border: 1px solid rgba(255,255,255,.4); border-radius: 18px;
+    padding: 10px 18px 12px;
+    box-shadow:
+      inset 1.5px 1.5px 1.5px rgba(255,255,255,.8),
+      inset -1.5px -1.5px 1.5px rgba(255,255,255,.4),
+      inset 0 0 14px rgba(255,255,255,.14),
+      0 10px 30px rgba(20,26,23,.18);
+  }
+  .brand::before, .navpill::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.14) 16%, transparent 40%, transparent 64%, rgba(255,255,255,.3) 100%);
+    opacity: .45;
   }
   .brand .brand-name { font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
   .brand .microtag { display: block; margin-top: 3px; }
   .navpill {
-    display: flex; align-items: center; gap: 4px;
-    background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
-    border: 1px solid var(--line); border-radius: 999px;
-    padding: 6px; box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 4px; position: relative;
+    background: rgba(255,255,255,.08);
+    -webkit-backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
+    backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
+    backdrop-filter: url(#liquid-glass);
+    border: 1px solid rgba(255,255,255,.4); border-radius: 999px;
+    padding: 6px;
+    box-shadow:
+      inset 1.5px 1.5px 1.5px rgba(255,255,255,.8),
+      inset -1.5px -1.5px 1.5px rgba(255,255,255,.4),
+      inset 0 0 14px rgba(255,255,255,.14),
+      0 10px 30px rgba(20,26,23,.18);
     max-width: calc(100vw - 36px); overflow-x: auto; scrollbar-width: none;
   }
   .navpill::-webkit-scrollbar { display: none; }
@@ -74,7 +95,14 @@
     cursor: pointer; white-space: nowrap; transition: color .15s, background .15s;
   }
   .navpill a:hover { color: var(--ink); }
-  .navpill a.active { background: #e6ebe8; color: var(--ink); }
+  .navpill a.active { background: transparent; color: var(--ink); }
+  .nav-ind {
+    position: absolute; top: 6px; bottom: 6px; left: 0; width: 0; opacity: 0;
+    border-radius: 999px; background: rgba(20,26,23,.09);
+    box-shadow: inset 0 1px 2px rgba(20,26,23,.06);
+    transition: left .4s cubic-bezier(.3,1.25,.4,1), width .4s cubic-bezier(.3,1.25,.4,1), opacity .2s;
+    pointer-events: none;
+  }
   @media (max-width: 720px) {
     .topbar { padding: 12px 12px; }
     .brand { display: none; }
@@ -183,10 +211,11 @@
   a.proj { display: block; text-decoration: none; color: inherit; }
   .proj-cover {
     display: block; width: calc(100% + 56px); margin: -28px -28px 18px;
-    aspect-ratio: 16 / 9; object-fit: cover;
+    height: 190px; object-fit: cover; object-position: var(--pos, 50% 35%);
     border-bottom: 1px solid var(--line);
     border-radius: 17px 17px 0 0;
   }
+  .proj.featured .proj-cover { height: 230px; }
   .proj.no-cover .proj-cover { display: none; }
   .live-cta {
     display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
@@ -270,13 +299,16 @@
     .avatar-bubble::after { left: auto; right: 26px; }
   }
   /* ============ field notes ============ */
-  .photo-cols { columns: 3 260px; column-gap: 16px; }
+  .photo-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .photo-cols { grid-template-columns: 1fr; } }
   .photo {
-    display: inline-block; width: 100%; margin: 0 0 16px; break-inside: avoid;
     background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
     overflow: hidden; box-shadow: var(--shadow);
   }
-  .photo img { width: 100%; display: block; cursor: zoom-in; }
+  .photo img {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    object-position: var(--pos, 50% 50%); display: block; cursor: zoom-in;
+  }
   .photo .ph-cap { padding: 13px 16px 15px; }
   .photo .ph-cap .microtag { display: block; font-size: 10px; margin-bottom: 5px; color: var(--accent-deep); }
   .photo .ph-cap p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
@@ -332,12 +364,14 @@
   /* ============ chat ============ */
   .chat-fab {
     position: fixed; right: 20px; bottom: 66px; z-index: 60;
-    width: 54px; height: 54px; border-radius: 50%; border: 0; cursor: pointer;
-    background: var(--accent); color: #fff; box-shadow: 0 10px 30px -8px rgba(13,125,104,.55);
+    width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
+    background: linear-gradient(145deg, #129a80, #0a5f50);
+    border: 1px solid rgba(255,255,255,.25); color: #fff;
+    box-shadow: 0 14px 38px -8px rgba(13,125,104,.65), inset 0 1.5px 1px rgba(255,255,255,.4);
     display: flex; align-items: center; justify-content: center;
-    transition: transform .18s, background .18s;
+    transition: transform .2s cubic-bezier(.34,1.5,.5,1), box-shadow .2s;
   }
-  .chat-fab:hover { transform: translateY(-2px); background: var(--accent-deep); }
+  .chat-fab:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 46px -8px rgba(13,125,104,.75), inset 0 1.5px 1px rgba(255,255,255,.4); }
   .chat-fab svg { width: 22px; height: 22px; fill: currentColor; }
   .chat-fab .ic-close { display: none; }
   .chat-fab.open .ic-chat { display: none; }
@@ -346,26 +380,47 @@
   .chat-panel {
     position: fixed; right: 20px; bottom: 132px; z-index: 60;
     width: min(400px, calc(100vw - 40px)); height: min(540px, 66vh);
-    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
-    box-shadow: 0 24px 70px -20px rgba(20,26,23,.35);
+    background: rgba(255,255,255,.55);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: url(#liquid-frost);
+    border: 1px solid rgba(255,255,255,.65); border-radius: 26px;
+    box-shadow: 0 34px 90px -22px rgba(10,45,36,.5), inset 0 1px 0 rgba(255,255,255,.85);
     display: flex; flex-direction: column; overflow: hidden;
-    opacity: 0; transform: translateY(14px) scale(.98); pointer-events: none;
-    transition: opacity .22s ease, transform .22s ease;
+    opacity: 0; transform: translateY(26px) scale(.92); pointer-events: none;
+    transform-origin: bottom right;
+    transition: opacity .32s cubic-bezier(.34,1.4,.44,1), transform .32s cubic-bezier(.34,1.4,.44,1);
   }
   .chat-panel.open { opacity: 1; transform: none; pointer-events: auto; }
-  .chat-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
-  .chat-head .avatar {
-    width: 36px; height: 36px; border-radius: 12px; background: var(--term-bg);
-    color: #8be3cd; font-family: var(--mono); font-size: 13px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
+  .chat-head {
+    display: flex; align-items: center; gap: 12px; padding: 17px 20px;
+    background: linear-gradient(135deg, #232427, #050506 85%);
+    border-bottom: 1px solid rgba(255,255,255,.08);
   }
-  .chat-head .who .nm { font-weight: 750; font-size: 14.5px; letter-spacing: -.01em; }
-  .chat-head .who .st { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-deep); }
-  .chat-head .who .st::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 7px; animation: blink 2s steps(1) infinite; }
+  .chat-head .avatar {
+    width: 38px; height: 38px; border-radius: 13px;
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.35);
+    color: #fff; font-family: var(--mono); font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .chat-head .who .nm { font-weight: 750; font-size: 14.5px; letter-spacing: -.01em; color: #fff; }
+  .chat-head .who .st { font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: rgba(255,255,255,.75); white-space: nowrap; }
+  .chat-head .who .st::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #e8c887; box-shadow: 0 0 8px rgba(232,200,135,.8); margin-right: 7px; animation: blink 2s steps(1) infinite; }
   .chat-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; }
-  .msg { max-width: 88%; padding: 11px 15px; border-radius: 16px; font-size: 14.5px; line-height: 1.6; }
-  .msg.bot { background: #eef2f0; border-bottom-left-radius: 6px; align-self: flex-start; }
-  .msg.user { background: var(--accent); color: #fff; border-bottom-right-radius: 6px; align-self: flex-end; }
+  .chat-body::-webkit-scrollbar { width: 5px; }
+  .chat-body::-webkit-scrollbar-thumb { background: rgba(10,95,80,.28); border-radius: 99px; }
+  .msg { max-width: 88%; padding: 11px 15px; border-radius: 18px; font-size: 14.5px; line-height: 1.6; }
+  .msg.bot {
+    background: rgba(255,255,255,.88); border: 1px solid rgba(20,26,23,.05);
+    box-shadow: 0 4px 16px -6px rgba(20,26,23,.12);
+    border-bottom-left-radius: 7px; align-self: flex-start;
+  }
+  .msg.user {
+    background: linear-gradient(135deg, #12967d, #0a5f50); color: #fff;
+    box-shadow: 0 8px 20px -8px rgba(13,125,104,.55), inset 0 1px 0 rgba(255,255,255,.25);
+    border-bottom-right-radius: 7px; align-self: flex-end;
+  }
   .msg .msg-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
   .msg .msg-links a {
     font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-decoration: none;
@@ -377,14 +432,21 @@
   .typing-dots i:nth-child(2) { animation-delay: .15s; }
   .typing-dots i:nth-child(3) { animation-delay: .3s; }
   @keyframes bob { 40% { transform: translateY(-4px); opacity: .5; } }
-  .chat-chips { padding: 12px 16px 16px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 7px; }
+  .chat-chips {
+    padding: 13px 16px 17px; display: flex; flex-wrap: wrap; gap: 7px;
+    border-top: 1px solid rgba(20,26,23,.06); background: rgba(255,255,255,.45);
+  }
   .chat-chips button {
     font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
-    background: var(--bg); border: 1px solid var(--line); border-radius: 999px;
-    padding: 7px 13px; cursor: pointer; color: var(--ink);
-    transition: border-color .15s, background .15s;
+    background: rgba(255,255,255,.8); border: 1px solid rgba(20,26,23,.08); border-radius: 999px;
+    padding: 8px 14px; cursor: pointer; color: var(--ink);
+    box-shadow: 0 2px 8px -2px rgba(20,26,23,.08);
+    transition: transform .16s cubic-bezier(.34,1.5,.5,1), border-color .16s, background .16s, box-shadow .16s;
   }
-  .chat-chips button:hover { border-color: var(--accent); background: #e2efe9; }
+  .chat-chips button:hover {
+    transform: translateY(-1.5px); border-color: var(--accent); background: #fff;
+    box-shadow: 0 6px 16px -4px rgba(13,125,104,.3);
+  }
   .chat-chips button:disabled { opacity: .45; cursor: default; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -398,6 +460,21 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="liquid-glass" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feGaussianBlur in="d" stdDeviation="2.5" result="b"/>
+    <feColorMatrix in="b" type="saturate" values="1.6"/>
+  </filter>
+  <filter id="liquid-frost" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feGaussianBlur in="d" stdDeviation="12" result="b"/>
+    <feColorMatrix in="b" type="saturate" values="1.7"/>
+  </filter>
+</svg>
+
 <!-- ======= top bar ======= -->
 <div class="topbar">
   <a class="brand" href="#hello">
@@ -405,6 +482,7 @@
     <span class="microtag">DATA &amp; AI&nbsp;&nbsp;·&nbsp;&nbsp;NEW DELHI</span>
   </a>
   <nav class="navpill" id="navpill">
+    <span class="nav-ind" id="nav-ind" aria-hidden="true"></span>
     <a href="#hello" data-spy="hello">Home</a>
     <a href="#work" data-spy="work">Work</a>
     <a href="#projects" data-spy="projects">Projects</a>
@@ -453,7 +531,7 @@
       <div class="when">JUL 2026 — PRESENT <span class="now">CURRENT</span></div>
       <div>
         <div class="job-top">
-          <img class="org-logo" src="orange.png?v=2" alt="Orange Business logo" loading="lazy">
+          <img class="org-logo" src="orange.png" alt="Orange Business logo" loading="lazy">
           <div>
             <h3>Data &amp; AI <span class="org">· Orange Business</span></h3>
             <div class="where">ENTERPRISE · DATA &amp; AI PRACTICE</div>
@@ -469,7 +547,7 @@
       <div class="when">JAN 2026 — JUL 2026</div>
       <div>
         <div class="job-top">
-          <img class="org-logo" src="meity.jpg?v=2" alt="Ministry of Electronics and IT logo" loading="lazy">
+          <img class="org-logo" src="meity.jpg" alt="Ministry of Electronics and IT logo" loading="lazy">
           <div>
             <h3>Technical Intern <span class="org">· National e-Governance Division, MeitY</span></h3>
             <div class="where">MINISTRY OF ELECTRONICS &amp; IT — NEW DELHI</div>
@@ -487,7 +565,7 @@
       <div class="when">MAY 2025 — SEP 2025</div>
       <div>
         <div class="job-top">
-          <img class="org-logo" src="mphasis.png?v=2" alt="Mphasis logo" loading="lazy">
+          <img class="org-logo" src="mphasis.png" alt="Mphasis logo" loading="lazy">
           <div>
             <h3>AI DataOps Intern <span class="org">· Mphasis</span></h3>
             <div class="where">BENGALURU, KARNATAKA</div>
@@ -504,7 +582,7 @@
       <div class="when">MAY 2024 — JUL 2024</div>
       <div>
         <div class="job-top">
-          <img class="org-logo" src="ohsl.jpg?v=2" alt="Open Health Systems Laboratory logo" loading="lazy">
+          <img class="org-logo" src="ohsl.jpg" alt="Open Health Systems Laboratory logo" loading="lazy">
           <div>
             <h3>AI Digital Twin Intern <span class="org">· Open Health Systems Laboratory</span></h3>
             <div class="where">NOIDA, UTTAR PRADESH</div>
@@ -521,7 +599,7 @@
       <div class="when">MAY 2023 — JUL 2023</div>
       <div>
         <div class="job-top">
-          <img class="org-logo" src="jabsz_studio_logo.jpg?v=2" alt="Jabsz Studio logo" loading="lazy">
+          <img class="org-logo" src="jabsz_studio_logo.jpg" alt="Jabsz Studio logo" loading="lazy">
           <div>
             <h3>Web Development Intern <span class="org">· Jabsz Studio</span></h3>
             <div class="where">REMOTE</div>
@@ -543,7 +621,7 @@
     </div>
     <div class="proj-grid">
       <a class="proj featured reveal" href="https://app.powerbi.com/view?r=eyJrIjoiM2NkMGIyYmMtOTI5Yy00YzEzLTllNTItMDM1NjdiNjQyMGVmIiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
-        <img class="proj-cover" src="proj-family-care.jpg" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <img class="proj-cover" src="pradhandashboard.jpg" style="--pos: 50% 26%;" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Pradhan Mantri Family Care Tracker Pilot Project Dashboard</h3>
         <p>Interactive Power BI dashboard built for the Pradhan Mantri Family Care Tracker pilot project — published and publicly viewable.</p>
@@ -551,7 +629,7 @@
         <span class="live-cta">Open dashboard ↗</span>
       </a>
       <a class="proj reveal" href="https://app.powerbi.com/view?r=eyJrIjoiZWMyZjNmM2UtMjNkYS00OTBiLWE4NDUtZTFmYWU4ZTcxMjg4IiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
-        <img class="proj-cover" src="proj-hr.jpg" alt="HR Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <img class="proj-cover" src="hrdashboard.jpg" style="--pos: 50% 32%;" alt="HR Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>HR Dashboard</h3>
         <p>Workforce analytics in Power BI — headcount, attrition and hiring trends in one interactive view.</p>
@@ -559,7 +637,7 @@
         <span class="live-cta">Open dashboard ↗</span>
       </a>
       <a class="proj reveal" href="https://lnkd.in/gjsDMtdp" target="_blank" rel="noopener">
-        <img class="proj-cover" src="proj-mospi.jpg" alt="Governance Dashboard for Ministry of Statistics and Programme Implementation cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <img class="proj-cover" src="mospi.jpg" style="--pos: 50% 45%;" alt="Governance Dashboard for Ministry of Statistics and Programme Implementation cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Governance Dashboard for Ministry of Statistics and Programme Implementation</h3>
         <p>Governance analytics for MoSPI — programme implementation metrics, tracked end-to-end.</p>
@@ -598,7 +676,7 @@
         <div class="avatar-stage" id="avatar-stage">
           <div class="avatar-bubble" id="avatar-bubble">meet the human</div>
           <div id="avatar-card">
-            <img src="avatar.png?v=3" alt="3D avatar of Vansh Puri in a light blue shirt, holding a holographic tablet">
+            <img src="avatar2.webp" alt="3D avatar of Vansh Puri in a light blue shirt, holding a holographic tablet">
           </div>
         </div>
         <h2>The data behind<br>the human.</h2>
@@ -612,7 +690,7 @@
         <div class="edu-block">
           <div class="edu">
             <div class="edu-l">
-              <img class="org-logo" src="amity.jpg?v=2" alt="Amity University logo" loading="lazy">
+              <img class="org-logo" src="amity.jpg" alt="Amity University logo" loading="lazy">
               <div>
                 <h4>Amity University, Noida</h4>
                 <div class="sub">B.Tech CSE — Honors in Data Science &amp; Analytics</div>
@@ -622,7 +700,7 @@
           </div>
           <div class="edu">
             <div class="edu-l">
-              <img class="org-logo" src="krm.jpg?v=2" alt="KR Mangalam World School logo" loading="lazy">
+              <img class="org-logo" src="krm.jpg" alt="KR Mangalam World School logo" loading="lazy">
               <div>
                 <h4>KR Mangalam World School, GK2</h4>
                 <div class="sub">AISSCE — Class XII</div>
@@ -680,7 +758,7 @@
     </div>
     <div class="photo-cols">
       <figure class="photo reveal">
-        <img src="meity-joining.jpg" alt="Vansh outside Electronics Niketan, MeitY headquarters, New Delhi" data-cap="ELECTRONICS NIKETAN · JOINING DAY — NEGD, MEITY" onerror="this.closest('.photo').classList.add('missing')">
+        <img src="meity-joining.jpg" style="--pos: 50% 72%;" alt="Vansh outside Electronics Niketan, MeitY headquarters, New Delhi" data-cap="ELECTRONICS NIKETAN · JOINING DAY — NEGD, MEITY" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop meity-joining.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">JAN 2026 · NEW DELHI</span>
@@ -688,7 +766,7 @@
         </figcaption>
       </figure>
       <figure class="photo reveal">
-        <img src="negd-office.jpg" alt="The NeGD office floor with the logo on a brick wall" data-cap="NEGD FLOOR · MEITY — NEW DELHI" onerror="this.closest('.photo').classList.add('missing')">
+        <img src="negd-office.jpg" style="--pos: 50% 42%;" alt="The NeGD office floor with the logo on a brick wall" data-cap="NEGD FLOOR · MEITY — NEW DELHI" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop negd-office.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">NEGD · MEITY</span>
@@ -704,7 +782,7 @@
         </figcaption>
       </figure>
       <figure class="photo reveal">
-        <img src="summit-badge.jpg" alt="Vansh with a lanyard in front of AI Impact Summit banners" data-cap="AI IMPACT SUMMIT · SHOW DAY" onerror="this.closest('.photo').classList.add('missing')">
+        <img src="summit-badge.jpg" style="--pos: 50% 58%;" alt="Vansh with a lanyard in front of AI Impact Summit banners" data-cap="AI IMPACT SUMMIT · SHOW DAY" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop summit-badge.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">SUMMIT · SHOW DAY</span>
@@ -758,7 +836,7 @@
     <div class="avatar">C</div>
     <div class="who">
       <div class="nm">CrazyPurii</div>
-      <div class="st">online — remembering for him</div>
+      <div class="st">backup brain — never clocks out</div>
     </div>
   </div>
   <div class="chat-body" id="chat-body"></div>
@@ -871,6 +949,47 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('[data-count]').forEach(function (el) { countObs.observe(el); });
 
+  /* ---------- sliding nav indicator ---------- */
+  var navInd = document.getElementById('nav-ind');
+  var indReady = false;
+  function moveInd(link) {
+    if (!navInd || !link) return;
+    if (!indReady) navInd.style.transition = 'none';
+    navInd.style.left = link.offsetLeft + 'px';
+    navInd.style.width = link.offsetWidth + 'px';
+    navInd.style.opacity = '1';
+    if (!indReady) {
+      indReady = true;
+      requestAnimationFrame(function () { navInd.style.transition = ''; });
+    }
+  }
+  window.addEventListener('resize', function () {
+    var act = document.querySelector('.navpill a.active');
+    if (act && navInd) {
+      navInd.style.transition = 'none';
+      moveInd(act);
+      requestAnimationFrame(function () { navInd.style.transition = ''; });
+    }
+  });
+
+  /* ---------- buttery nav scroll ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = (a.getAttribute('href') || '').slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      if (a.getAttribute('data-spy')) {
+        document.querySelectorAll('.navpill a').forEach(function (x) { x.classList.remove('active'); });
+        a.classList.add('active');
+        moveInd(a);
+      }
+      var to = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: to, behavior: RM ? 'auto' : 'smooth' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
   /* ---------- scrollspy ---------- */
   var spyLinks = {};
   document.querySelectorAll('[data-spy]').forEach(function (a) { spyLinks[a.getAttribute('data-spy')] = a; });
@@ -879,7 +998,7 @@
       if (e.isIntersecting) {
         Object.keys(spyLinks).forEach(function (k) { spyLinks[k].classList.remove('active'); });
         var link = spyLinks[e.target.id];
-        if (link) link.classList.add('active');
+        if (link) { link.classList.add('active'); moveInd(link); }
       }
     });
   }, { rootMargin: '-45% 0px -45% 0px' });
@@ -1055,8 +1174,9 @@
   document.querySelectorAll('[data-chat-toggle]').forEach(function (el) {
     el.addEventListener('click', function () { toggleChat(); });
   });
-  document.addEventListener('click', function (e) {
+  document.addEventListener('pointerdown', function (e) {
     if (!panel.classList.contains('open')) return;
+    if (!e.target.isConnected) return;
     if (panel.contains(e.target)) return;
     if (e.target.closest && e.target.closest('[data-chat-toggle]')) return;
     toggleChat(false);
