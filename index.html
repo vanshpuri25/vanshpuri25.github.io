@@ -52,7 +52,7 @@
   }
   .topbar > * { pointer-events: auto; }
   .brand {
-    text-decoration: none; display: block; position: relative;
+    text-decoration: none; display: block; position: relative; text-align: center;
     background: rgba(255,255,255,.08);
     -webkit-backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
     backdrop-filter: blur(6px) saturate(170%) brightness(1.08);
@@ -90,7 +90,7 @@
   .navpill::-webkit-scrollbar { display: none; }
   .navpill a, .navpill button {
     font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
-    text-transform: uppercase; text-decoration: none; color: var(--muted);
+    text-transform: uppercase; text-decoration: none; color: var(--ink); font-weight: 700;
     padding: 9px 14px; border-radius: 999px; border: 0; background: none;
     cursor: pointer; white-space: nowrap; transition: color .15s, background .15s;
   }
@@ -108,6 +108,12 @@
     .brand { display: none; }
     .navpill { margin-left: auto; padding: 5px; }
     .navpill a { padding: 9px 11px; font-size: 10.5px; letter-spacing: .15em; }
+  }
+
+  /* cheap glass while scrolling — displacement refraction only at rest */
+  html.is-scrolling .brand, html.is-scrolling .navpill {
+    -webkit-backdrop-filter: blur(8px) saturate(160%);
+    backdrop-filter: blur(8px) saturate(160%);
   }
 
   /* ============ sections ============ */
@@ -479,7 +485,7 @@
 <div class="topbar">
   <a class="brand" href="#hello">
     <span class="brand-name">Vansh Puri</span>
-    <span class="microtag">DATA &amp; AI&nbsp;&nbsp;·&nbsp;&nbsp;NEW DELHI</span>
+    <span class="microtag">DATA &amp; AI&nbsp;&nbsp;·&nbsp;&nbsp;INDIA</span>
   </a>
   <nav class="navpill" id="navpill">
     <span class="nav-ind" id="nav-ind" aria-hidden="true"></span>
@@ -621,7 +627,7 @@
     </div>
     <div class="proj-grid">
       <a class="proj featured reveal" href="https://app.powerbi.com/view?r=eyJrIjoiM2NkMGIyYmMtOTI5Yy00YzEzLTllNTItMDM1NjdiNjQyMGVmIiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
-        <img class="proj-cover" src="pradhandashboard.jpg" style="--pos: 50% 26%;" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
+        <img class="proj-cover" src="pradhandashboard.jpg" style="--pos: 50% 26%; height: 400px;" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Pradhan Mantri Family Care Tracker Pilot Project Dashboard</h3>
         <p>Interactive Power BI dashboard built for the Pradhan Mantri Family Care Tracker pilot project — published and publicly viewable.</p>
@@ -636,7 +642,7 @@
         <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">HR Analytics</span></div>
         <span class="live-cta">Open dashboard ↗</span>
       </a>
-      <a class="proj reveal" href="https://lnkd.in/gjsDMtdp" target="_blank" rel="noopener">
+      <a class="proj reveal" href="https://paimana-perf.mospi.gov.in/" target="_blank" rel="noopener">
         <img class="proj-cover" src="mospi.jpg" style="--pos: 50% 45%;" alt="Governance Dashboard for Ministry of Statistics and Programme Implementation cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Governance Dashboard for Ministry of Statistics and Programme Implementation</h3>
@@ -645,23 +651,28 @@
         <span class="live-cta">Open dashboard ↗</span>
       </a>
       <div class="proj featured reveal">
-        <div class="yr">2025</div>
         <h3>Agentic Reconciliation System</h3>
         <p>An AI agent that autonomously compares structured datasets and flags discrepancies — built with OpenAI GPT and LlamaIndex. Processes 10,000+ records at ~95% detection accuracy, cutting manual reconciliation by ~60%.</p>
         <div class="tags"><span class="tag">OpenAI GPT</span><span class="tag">LlamaIndex</span><span class="tag">Pandas</span><span class="tag">Agents</span></div>
       </div>
       <div class="proj reveal">
-        <div class="yr">2025</div>
         <h3>Crypto Price Prediction</h3>
         <p>Time-series forecasting of cryptocurrency prices using LSTM and ARIMA models — strong predictive accuracy for financial forecasting and trading use cases.</p>
         <div class="tags"><span class="tag">LSTM</span><span class="tag">ARIMA</span><span class="tag">Time Series</span></div>
       </div>
       <div class="proj reveal">
-        <div class="yr">2024</div>
         <h3>Handwriting Recognition</h3>
         <p>A CNN trained on 60,000+ MNIST images with TensorFlow and Keras — ~98% classification accuracy, built for real-time image recognition.</p>
         <div class="tags"><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">CNN</span></div>
       </div>
+      <a class="proj featured reveal" href="https://ieeexplore.ieee.org/document/11365709" target="_blank" rel="noopener">
+        <img class="proj-cover" src="research.jpg" style="--pos: 50% 26%; height: 320px;" alt="Vansh presenting the research poster at Amity Technovation" onerror="this.closest('.proj').classList.add('no-cover')">
+        <div class="yr">IEEE · PUBLISHED</div>
+        <h3>Utilizing Large Language Models for Alzheimer's and Bipolar Disorder Prediction</h3>
+        <p>Peer-reviewed research applying large language models to Alzheimer's and Bipolar Disorder prediction — published on IEEE Xplore.</p>
+        <div class="tags"><span class="tag">LLMs</span><span class="tag">Healthcare AI</span><span class="tag">Research</span></div>
+        <span class="live-cta">Read the paper ↗</span>
+      </a>
     </div>
   </section>
 
@@ -949,6 +960,16 @@
   }, { threshold: 0.5 });
   document.querySelectorAll('[data-count]').forEach(function (el) { countObs.observe(el); });
 
+  /* ---------- cheap glass during scroll ---------- */
+  var scrollGlassTimer = null;
+  window.addEventListener('scroll', function () {
+    document.documentElement.classList.add('is-scrolling');
+    clearTimeout(scrollGlassTimer);
+    scrollGlassTimer = setTimeout(function () {
+      document.documentElement.classList.remove('is-scrolling');
+    }, 160);
+  }, { passive: true });
+
   /* ---------- sliding nav indicator ---------- */
   var navInd = document.getElementById('nav-ind');
   var indReady = false;
@@ -984,6 +1005,7 @@
         a.classList.add('active');
         moveInd(a);
       }
+      document.documentElement.classList.add('is-scrolling');
       var to = target.getBoundingClientRect().top + window.scrollY - 70;
       window.scrollTo({ top: to, behavior: RM ? 'auto' : 'smooth' });
       history.replaceState(null, '', '#' + id);
