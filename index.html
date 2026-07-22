@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vansh puri — data & ai</title>
-<meta name="description" content="Vansh Puri — Data & AI at Orange Business. National-scale pipelines at MeitY, DataOps at Mphasis, healthcare ML at OHSL. Narrated by CrazyPurii, the AI he built because his memory clocks out before he does.">
+<title>vansh puri, data & ai</title>
+<meta name="description" content="Vansh Puri, Data & AI at Orange Business. National-scale pipelines at MeitY, DataOps at Mphasis, healthcare ML at OHSL. Narrated by CrazyPurii, the AI he built because his memory clocks out before he does.">
 <meta name="theme-color" content="#edf0ee">
 <style>
   :root {
@@ -110,7 +110,7 @@
     .navpill a { padding: 9px 11px; font-size: 10.5px; letter-spacing: .15em; }
   }
 
-  /* cheap glass while scrolling — displacement refraction only at rest */
+  /* cheap glass while scrolling, displacement refraction only at rest */
   html.is-scrolling .brand, html.is-scrolling .navpill {
     -webkit-backdrop-filter: blur(8px) saturate(160%);
     backdrop-filter: blur(8px) saturate(160%);
@@ -161,7 +161,10 @@
     overflow: hidden; font-family: var(--mono); font-size: 13px; line-height: 1.8;
   }
   .term-head { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.07); }
-  .term-head i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); }
+  .term-head i { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.14); }
+  .term-head i:nth-child(1) { background: #ff5f56; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.15); }
+  .term-head i:nth-child(2) { background: #ffbd2e; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.15); }
+  .term-head i:nth-child(3) { background: #27c93f; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.15); }
   .term-head .term-title { margin-left: auto; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: rgba(207,232,224,.4); }
   .term-body { padding: 18px 20px 22px; min-height: 285px; color: var(--term-ink); }
   .term-body .cmd { color: #8be3cd; }
@@ -305,19 +308,25 @@
     .avatar-bubble::after { left: auto; right: 26px; }
   }
   /* ============ field notes ============ */
-  .photo-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 700px) { .photo-cols { grid-template-columns: 1fr; } }
+  .photo-cols { columns: 3; column-gap: 16px; }
+  @media (max-width: 920px) { .photo-cols { columns: 2; } }
+  @media (max-width: 460px) { .photo-cols { columns: 2; column-gap: 12px; } }
   .photo {
+    break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 16px;
     background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
     overflow: hidden; box-shadow: var(--shadow);
   }
   .photo img {
-    width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
-    object-position: var(--pos, 50% 50%); display: block; cursor: zoom-in;
+    width: 100%; height: auto; display: block; cursor: zoom-in;
   }
-  .photo .ph-cap { padding: 13px 16px 15px; }
-  .photo .ph-cap .microtag { display: block; font-size: 10px; margin-bottom: 5px; color: var(--accent-deep); }
-  .photo .ph-cap p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+  .photo .ph-cap { padding: 9px 13px 11px; }
+  .photo .ph-cap .microtag { display: block; font-size: 8.5px; letter-spacing: .16em; margin-bottom: 3px; color: var(--accent-deep); }
+  .photo .ph-cap p { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  @media (max-width: 460px) {
+    .photo .ph-cap { padding: 7px 10px 9px; }
+    .photo .ph-cap .microtag { font-size: 8px; }
+    .photo .ph-cap p { font-size: 10px; line-height: 1.35; }
+  }
   .photo .ph-fallback { display: none; }
   .photo.missing img { display: none; }
   .photo.missing .ph-fallback {
@@ -386,11 +395,10 @@
   .chat-panel {
     position: fixed; right: 20px; bottom: 132px; z-index: 60;
     width: min(400px, calc(100vw - 40px)); height: min(540px, 66vh);
-    background: rgba(255,255,255,.55);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    backdrop-filter: blur(28px) saturate(180%);
-    backdrop-filter: url(#liquid-frost);
-    border: 1px solid rgba(255,255,255,.65); border-radius: 26px;
+    background: rgba(255,255,255,.38);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.6); border-radius: 26px;
     box-shadow: 0 34px 90px -22px rgba(10,45,36,.5), inset 0 1px 0 rgba(255,255,255,.85);
     display: flex; flex-direction: column; overflow: hidden;
     opacity: 0; transform: translateY(26px) scale(.92); pointer-events: none;
@@ -509,10 +517,10 @@
           <span class="typed-line"><span id="typed"></span><span class="caret" id="typed-caret"></span></span>
         </h1>
         <p class="narrator">
-          I'm <b>CrazyPurii</b> — the AI Vansh built because his memory clocks out before he does.
+          I'm <b>CrazyPurii</b>, the AI Vansh built because his memory clocks out before he does.
           He's in <b>Data &amp; AI at Orange Business</b>; before that, national-scale pipelines
           for the Ministry of Electronics &amp; IT. Right now he's probably arguing with CapCut
-          over an edit — so the questions come to me.
+          over an edit, so the questions come to me.
         </p>
         <div class="cta-row">
           <button class="btn solid" data-chat-toggle>Talk to me</button>
@@ -530,11 +538,11 @@
   <section id="work">
     <div class="sec-head">
       <span class="microtag teal">02&nbsp;&nbsp;/&nbsp;&nbsp;WORK</span>
-      <p>Five stops so far — government, enterprise, healthcare, web. The pattern holds: messy records in, decisions out.</p>
+      <p>Five stops so far, government, enterprise, healthcare, web. The pattern holds: messy records in, decisions out.</p>
     </div>
 
     <div class="job reveal">
-      <div class="when">JUL 2026 — PRESENT <span class="now">CURRENT</span></div>
+      <div class="when">JUL 2026 → PRESENT <span class="now">CURRENT</span></div>
       <div>
         <div class="job-top">
           <img class="org-logo" src="orange.png" alt="Orange Business logo" loading="lazy">
@@ -550,25 +558,25 @@
     </div>
 
     <div class="job reveal">
-      <div class="when">JAN 2026 — JUL 2026</div>
+      <div class="when">JAN 2026 → JUL 2026</div>
       <div>
         <div class="job-top">
           <img class="org-logo" src="meity.jpg" alt="Ministry of Electronics and IT logo" loading="lazy">
           <div>
             <h3>Technical Intern <span class="org">· National e-Governance Division, MeitY</span></h3>
-            <div class="where">MINISTRY OF ELECTRONICS &amp; IT — NEW DELHI</div>
+            <div class="where">MINISTRY OF ELECTRONICS &amp; IT, NEW DELHI</div>
           </div>
         </div>
         <ul>
           <li>Ran exploratory and predictive analysis on 35,000+ government records, producing 15+ insights that fed into MeitY's digital infrastructure strategy.</li>
-          <li>Built analytics-ready pipelines with ML-based feature engineering across 8+ national datasets — reporting turnaround down ~30%, policy decisions supported at scale.</li>
-          <li>Organising head for the AI Impact Summit 2026, New Delhi — on the ground running sessions and coordination for India's flagship global AI gathering.</li>
+          <li>Built analytics-ready pipelines with ML-based feature engineering across 8+ national datasets, reporting turnaround down ~30%, policy decisions supported at scale.</li>
+          <li>Organising head for the AI Impact Summit 2026, New Delhi, on the ground running sessions and coordination for India's flagship global AI gathering.</li>
         </ul>
       </div>
     </div>
 
     <div class="job reveal">
-      <div class="when">MAY 2025 — SEP 2025</div>
+      <div class="when">MAY 2025 → SEP 2025</div>
       <div>
         <div class="job-top">
           <img class="org-logo" src="mphasis.png" alt="Mphasis logo" loading="lazy">
@@ -578,14 +586,14 @@
           </div>
         </div>
         <ul>
-          <li>Shipped drift detection, monitoring and automated retraining — prediction accuracy up ~25%, manual oversight down.</li>
-          <li>Designed and optimised 50+ automated ETL pipelines in Python and PySpark — processing ~40% faster, cloud costs ~20% lower.</li>
+          <li>Shipped drift detection, monitoring and automated retraining, prediction accuracy up ~25%, manual oversight down.</li>
+          <li>Designed and optimised 50+ automated ETL pipelines in Python and PySpark, processing ~40% faster, cloud costs ~20% lower.</li>
         </ul>
       </div>
     </div>
 
     <div class="job reveal">
-      <div class="when">MAY 2024 — JUL 2024</div>
+      <div class="when">MAY 2024 → JUL 2024</div>
       <div>
         <div class="job-top">
           <img class="org-logo" src="ohsl.jpg" alt="Open Health Systems Laboratory logo" loading="lazy">
@@ -595,14 +603,14 @@
           </div>
         </div>
         <ul>
-          <li>Engineered end-to-end ML pipelines over 1,000+ patient datasets with Python and PySpark — integration time halved, predictive accuracy up ~25% via real-time drift detection and retraining.</li>
+          <li>Engineered end-to-end ML pipelines over 1,000+ patient datasets with Python and PySpark, integration time halved, predictive accuracy up ~25% via real-time drift detection and retraining.</li>
           <li>Validated model outputs with 5+ clinicians, directly supporting two research papers in development.</li>
         </ul>
       </div>
     </div>
 
     <div class="job reveal">
-      <div class="when">MAY 2023 — JUL 2023</div>
+      <div class="when">MAY 2023 → JUL 2023</div>
       <div>
         <div class="job-top">
           <img class="org-logo" src="jabsz_studio_logo.jpg" alt="Jabsz Studio logo" loading="lazy">
@@ -612,7 +620,7 @@
           </div>
         </div>
         <ul>
-          <li>Optimised 13 web pages through caching and front-end refactoring — page load time down ~30%.</li>
+          <li>Optimised 13 web pages through caching and front-end refactoring, page load time down ~30%.</li>
           <li>Shipped responsive, accessible web apps with design, QA and product teams.</li>
         </ul>
       </div>
@@ -623,14 +631,14 @@
   <section id="projects">
     <div class="sec-head">
       <span class="microtag teal">03&nbsp;&nbsp;/&nbsp;&nbsp;PROJECTS</span>
-      <p>Dashboards in production, agents that talk, models that forecast — some of it live right now. The linked ones open in a new tab.</p>
+      <p>Dashboards in production, agents that talk, models that forecast, some of it live right now. The linked ones open in a new tab.</p>
     </div>
     <div class="proj-grid">
       <a class="proj featured reveal" href="https://app.powerbi.com/view?r=eyJrIjoiM2NkMGIyYmMtOTI5Yy00YzEzLTllNTItMDM1NjdiNjQyMGVmIiwidCI6IjliZDllNTJjLWU1MGItNDUzYS04MzA0LTczMjY4NWM4Y2NlOSJ9" target="_blank" rel="noopener">
         <img class="proj-cover" src="pradhandashboard.jpg" style="--pos: 50% 26%; height: 400px;" alt="Pradhan Mantri Family Care Tracker Pilot Project Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Pradhan Mantri Family Care Tracker Pilot Project Dashboard</h3>
-        <p>Interactive Power BI dashboard built for the Pradhan Mantri Family Care Tracker pilot project — published and publicly viewable.</p>
+        <p>Interactive Power BI dashboard built for the Pradhan Mantri Family Care Tracker pilot project, published and publicly viewable.</p>
         <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Gov Analytics</span></div>
         <span class="live-cta">Open dashboard ↗</span>
       </a>
@@ -638,7 +646,7 @@
         <img class="proj-cover" src="hrdashboard.jpg" style="--pos: 50% 32%;" alt="HR Dashboard cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>HR Dashboard</h3>
-        <p>Workforce analytics in Power BI — headcount, attrition and hiring trends in one interactive view.</p>
+        <p>Workforce analytics in Power BI, headcount, attrition and hiring trends in one interactive view.</p>
         <div class="tags"><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">HR Analytics</span></div>
         <span class="live-cta">Open dashboard ↗</span>
       </a>
@@ -646,30 +654,30 @@
         <img class="proj-cover" src="mospi.jpg" style="--pos: 50% 45%;" alt="Governance Dashboard for Ministry of Statistics and Programme Implementation cover" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">POWER BI · LIVE</div>
         <h3>Governance Dashboard for Ministry of Statistics and Programme Implementation</h3>
-        <p>Governance analytics for MoSPI — programme implementation metrics, tracked end-to-end.</p>
+        <p>Governance analytics for MoSPI, programme implementation metrics, tracked end-to-end.</p>
         <div class="tags"><span class="tag">Power BI</span><span class="tag">Gov Analytics</span><span class="tag">MoSPI</span></div>
         <span class="live-cta">Open dashboard ↗</span>
       </a>
       <div class="proj featured reveal">
         <h3>Agentic Reconciliation System</h3>
-        <p>An AI agent that autonomously compares structured datasets and flags discrepancies — built with OpenAI GPT and LlamaIndex. Processes 10,000+ records at ~95% detection accuracy, cutting manual reconciliation by ~60%.</p>
+        <p>An AI agent that autonomously compares structured datasets and flags discrepancies, built with OpenAI GPT and LlamaIndex. Processes 10,000+ records at ~95% detection accuracy, cutting manual reconciliation by ~60%.</p>
         <div class="tags"><span class="tag">OpenAI GPT</span><span class="tag">LlamaIndex</span><span class="tag">Pandas</span><span class="tag">Agents</span></div>
       </div>
       <div class="proj reveal">
         <h3>Crypto Price Prediction</h3>
-        <p>Time-series forecasting of cryptocurrency prices using LSTM and ARIMA models — strong predictive accuracy for financial forecasting and trading use cases.</p>
+        <p>Time-series forecasting of cryptocurrency prices using LSTM and ARIMA models, strong predictive accuracy for financial forecasting and trading use cases.</p>
         <div class="tags"><span class="tag">LSTM</span><span class="tag">ARIMA</span><span class="tag">Time Series</span></div>
       </div>
       <div class="proj reveal">
         <h3>Handwriting Recognition</h3>
-        <p>A CNN trained on 60,000+ MNIST images with TensorFlow and Keras — ~98% classification accuracy, built for real-time image recognition.</p>
+        <p>A CNN trained on 60,000+ MNIST images with TensorFlow and Keras, ~98% classification accuracy, built for real-time image recognition.</p>
         <div class="tags"><span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">CNN</span></div>
       </div>
       <a class="proj featured reveal" href="https://ieeexplore.ieee.org/document/11365709" target="_blank" rel="noopener">
         <img class="proj-cover" src="research.jpg" style="--pos: 50% 26%; height: 320px;" alt="Vansh presenting the research poster at Amity Technovation" onerror="this.closest('.proj').classList.add('no-cover')">
         <div class="yr">IEEE · PUBLISHED</div>
         <h3>Utilizing Large Language Models for Alzheimer's and Bipolar Disorder Prediction</h3>
-        <p>Peer-reviewed research applying large language models to Alzheimer's and Bipolar Disorder prediction — published on IEEE Xplore.</p>
+        <p>Peer-reviewed research applying large language models to Alzheimer's and Bipolar Disorder prediction, published on IEEE Xplore.</p>
         <div class="tags"><span class="tag">LLMs</span><span class="tag">Healthcare AI</span><span class="tag">Research</span></div>
         <span class="live-cta">Read the paper ↗</span>
       </a>
@@ -680,7 +688,7 @@
   <section id="about">
     <div class="sec-head">
       <span class="microtag teal">04&nbsp;&nbsp;/&nbsp;&nbsp;ABOUT</span>
-      <p>The human behind the pipelines — as reconstructed from his own records.</p>
+      <p>The human behind the pipelines, as reconstructed from his own records.</p>
     </div>
     <div class="about-grid">
       <div class="about-left reveal">
@@ -694,7 +702,7 @@
         <div class="roleline microtag teal">BUILDER · DATA &amp; AI · ORANGE BUSINESS</div>
         <p class="bio">
           B.Tech CSE with <b>Honors in Data Science &amp; Analytics</b> from Amity University.
-          Four internships across government, enterprise, healthcare and web —
+          Four internships across government, enterprise, healthcare and web , 
           plus two years coordinating placement drives for his whole campus.
           He speaks <b>four languages</b>; I only speak SQL and JSON, so he wins there.
         </p>
@@ -704,7 +712,7 @@
               <img class="org-logo" src="amity.jpg" alt="Amity University logo" loading="lazy">
               <div>
                 <h4>Amity University, Noida</h4>
-                <div class="sub">B.Tech CSE — Honors in Data Science &amp; Analytics</div>
+                <div class="sub">B.Tech CSE, Honors in Data Science &amp; Analytics</div>
               </div>
             </div>
             <div class="score">8.31 CGPA</div>
@@ -714,7 +722,7 @@
               <img class="org-logo" src="krm.jpg" alt="KR Mangalam World School logo" loading="lazy">
               <div>
                 <h4>KR Mangalam World School, GK2</h4>
-                <div class="sub">AISSCE — Class XII</div>
+                <div class="sub">AISSCE, Class XII</div>
               </div>
             </div>
             <div class="score">86.25%</div>
@@ -724,13 +732,13 @@
       <div>
         <div class="microtag" style="display:block;margin-bottom:14px;">BY THE NUMBERS</div>
         <div class="stats">
-          <div class="stat reveal"><div class="num"><span data-count="35" data-suffix="K+">0</span></div><div class="lbl">Gov records analysed — NeGD · MeitY</div></div>
-          <div class="stat reveal"><div class="num"><span data-count="50" data-suffix="+">0</span></div><div class="lbl">ETL pipelines automated — Mphasis</div></div>
-          <div class="stat reveal"><div class="num"><span data-count="95" data-suffix="%">0</span></div><div class="lbl">Discrepancy detection — recon agent</div></div>
-          <div class="stat reveal"><div class="num"><span data-count="98" data-prefix="~" data-suffix="%">0</span></div><div class="lbl">MNIST accuracy — CNN, 60K images</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="35" data-suffix="K+">0</span></div><div class="lbl">Gov records analysed, NeGD · MeitY</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="50" data-suffix="+">0</span></div><div class="lbl">ETL pipelines automated, Mphasis</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="95" data-suffix="%">0</span></div><div class="lbl">Discrepancy detection, recon agent</div></div>
+          <div class="stat reveal"><div class="num"><span data-count="98" data-prefix="~" data-suffix="%">0</span></div><div class="lbl">MNIST accuracy, CNN, 60K images</div></div>
           <div class="manifesto reveal">
             <span class="microtag teal">MANIFESTO</span>
-            <p>When he isn't building pipelines for the systems governments run on, he's pulling apart datasets nobody else wants to touch — reconciling, labelling, tidying — because an unclean record offends him personally. I'm what that habit looks like once it gets an API.</p>
+            <p>When he isn't building pipelines for the systems governments run on, he's pulling apart datasets nobody else wants to touch, reconciling, labelling, tidying, because an unclean record offends him personally. I'm what that habit looks like once it gets an API.</p>
           </div>
         </div>
         <div class="skills-row reveal">
@@ -765,11 +773,27 @@
   <section id="moments">
     <div class="sec-head">
       <span class="microtag teal">05&nbsp;&nbsp;/&nbsp;&nbsp;FIELD NOTES</span>
-      <p>Records the pipelines don't capture — pulled straight from his camera roll.</p>
+      <p>Records the pipelines don't capture, pulled straight from his camera roll.</p>
     </div>
     <div class="photo-cols">
       <figure class="photo reveal">
-        <img src="meity-joining.jpg" style="--pos: 50% 72%;" alt="Vansh outside Electronics Niketan, MeitY headquarters, New Delhi" data-cap="ELECTRONICS NIKETAN · JOINING DAY — NEGD, MEITY" onerror="this.closest('.photo').classList.add('missing')">
+        <img src="orangebus.jpg" alt="Vansh at the Orange Business green living wall" data-cap="ORANGE BUSINESS · DATA &amp; AI" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop orangebus.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">2026 · ORANGE BUSINESS</span>
+          <p>Finally found the Orange everyone keeps talking about.</p>
+        </figcaption>
+      </figure>
+      <figure class="photo reveal">
+        <img src="negd-office.jpg" alt="The NeGD office floor with the logo on a brick wall" data-cap="NEGD FLOOR · MEITY, NEW DELHI" onerror="this.closest('.photo').classList.add('missing')">
+        <div class="ph-fallback">drop negd-office.jpg<br>into the project folder</div>
+        <figcaption class="ph-cap">
+          <span class="microtag">NEGD · MEITY</span>
+          <p>The NeGD floor, 35,000 government records were thoroughly interrogated between these walls. The wall talked first.</p>
+        </figcaption>
+      </figure>
+      <figure class="photo reveal">
+        <img src="meity-joining.jpg" alt="Vansh outside Electronics Niketan, MeitY headquarters, New Delhi" data-cap="ELECTRONICS NIKETAN · JOINING DAY, NEGD, MEITY" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop meity-joining.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">JAN 2026 · NEW DELHI</span>
@@ -777,27 +801,19 @@
         </figcaption>
       </figure>
       <figure class="photo reveal">
-        <img src="negd-office.jpg" style="--pos: 50% 42%;" alt="The NeGD office floor with the logo on a brick wall" data-cap="NEGD FLOOR · MEITY — NEW DELHI" onerror="this.closest('.photo').classList.add('missing')">
-        <div class="ph-fallback">drop negd-office.jpg<br>into the project folder</div>
-        <figcaption class="ph-cap">
-          <span class="microtag">NEGD · MEITY</span>
-          <p>The NeGD floor — 35,000 government records were thoroughly interrogated between these walls. The wall talked first.</p>
-        </figcaption>
-      </figure>
-      <figure class="photo reveal">
         <img src="summit-panel.jpg" alt="Panel session at the AI Impact Summit with the organising team standing" data-cap="AI IMPACT SUMMIT · PANEL SESSIONS" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop summit-panel.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">SUMMIT · PANELS</span>
-          <p>Scientists, CISOs and ministries in one room — and not a single session ran late. You're welcome, Bharat.</p>
+          <p>Scientists, CISOs and ministries in one room, and not a single session ran late. You're welcome, Bharat.</p>
         </figcaption>
       </figure>
       <figure class="photo reveal">
-        <img src="summit-badge.jpg" style="--pos: 50% 58%;" alt="Vansh with a lanyard in front of AI Impact Summit banners" data-cap="AI IMPACT SUMMIT · SHOW DAY" onerror="this.closest('.photo').classList.add('missing')">
+        <img src="summit-badge.jpg" alt="Vansh with a lanyard in front of AI Impact Summit banners" data-cap="AI IMPACT SUMMIT · SHOW DAY" onerror="this.closest('.photo').classList.add('missing')">
         <div class="ph-fallback">drop summit-badge.jpg<br>into the project folder</div>
         <figcaption class="ph-cap">
           <span class="microtag">SUMMIT · SHOW DAY</span>
-          <p>Flag day at the AI Impact Summit — half the world's AI policy flew in, and somebody had to keep it on schedule.</p>
+          <p>Flag day at the AI Impact Summit. Half the world's AI policy flew in and somebody had to keep it on schedule.</p>
         </figcaption>
       </figure>
     </div>
@@ -807,7 +823,7 @@
   <section class="contact" id="contact">
     <span class="microtag teal">06&nbsp;&nbsp;/&nbsp;&nbsp;CONTACT</span>
     <h2>Let's keep the<br>records straight.</h2>
-    <p class="sub">Open to conversations about data, ML and AI work. He replies quick — unless CapCut is winning the argument.</p>
+    <p class="sub">Open to conversations about data, ML and AI work. He replies quick, unless CapCut is winning the argument.</p>
     <a class="bigmail" href="mailto:vanshpuri.tech@gmail.com">vanshpuri.tech@gmail.com</a>
     <div class="cta-row">
       <a class="btn" href="https://linkedin.com/in/vanshpuri25/" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -833,7 +849,7 @@
       <span>DATA BY DAY · CAPCUT BY NIGHT</span>
     </div>
   </div>
-  <span class="clock" id="clock">NEW DELHI —:—:—</span>
+  <span class="clock" id="clock">NEW DELHI ··:··:··</span>
 </div>
 
 <!-- ======= chat ======= -->
@@ -844,10 +860,10 @@
 
 <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Chat with CrazyPurii">
   <div class="chat-head">
-    <div class="avatar">C</div>
+    <div class="avatar">VP</div>
     <div class="who">
       <div class="nm">CrazyPurii</div>
-      <div class="st">backup brain — never clocks out</div>
+      <div class="st">backup brain, never clocks out</div>
     </div>
   </div>
   <div class="chat-body" id="chat-body"></div>
@@ -893,14 +909,14 @@
   /* ---------- terminal ---------- */
   var TERM_LINES = [
     { cls: 'cmd', text: 'whoami' },
-    { cls: 'out', text: 'vansh puri — data & ai engineer' },
+    { cls: 'out', text: 'vansh puri, data & ai engineer' },
     { cls: 'cmd', text: 'current' },
     { cls: 'out', text: 'orange business · <span class="hl">jul 2026 → present</span>' },
     { cls: 'cmd', text: 'history | tail -4' },
-    { cls: 'out', text: '2026&nbsp; meity · negd — technical intern' },
-    { cls: 'out', text: '2025&nbsp; mphasis — ai dataops' },
-    { cls: 'out', text: '2024&nbsp; ohsl — healthcare digital twin' },
-    { cls: 'out', text: '2023&nbsp; jabsz studio — web dev' },
+    { cls: 'out', text: '2026&nbsp; meity · negd, technical intern' },
+    { cls: 'out', text: '2025&nbsp; mphasis, ai dataops' },
+    { cls: 'out', text: '2024&nbsp; ohsl, healthcare digital twin' },
+    { cls: 'out', text: '2023&nbsp; jabsz studio, web dev' },
     { cls: 'cmd', text: 'motto' },
     { cls: 'out', text: '"clean data. honest numbers."' }
   ];
@@ -1087,7 +1103,7 @@
   var FLOWS = [
     {
       q: 'what does he do?',
-      a: "Vansh is in the Data & AI practice at Orange Business — joined July 2026, still there. Before that he ran predictive analysis on 35,000+ records for MeitY's National e-Governance Division. The pattern on his file: hand him messy data, get back a pipeline and a decision. I keep the file — someone here has to."
+      a: "Vansh is in the Data & AI practice at Orange Business, joined July 2026, still there. Before that he ran predictive analysis on 35,000+ records for MeitY's National e-Governance Division. The pattern on his file: hand him messy data, get back a pipeline and a decision. I keep the file, someone here has to."
     },
     {
       q: 'show me the numbers',
@@ -1095,15 +1111,15 @@
     },
     {
       q: 'what has he built?',
-      a: "Live Power BI dashboards you can open from the Projects section — the Pradhan Mantri Family Care Tracker Pilot Project Dashboard, an HR Dashboard, and a Governance Dashboard for the Ministry of Statistics and Programme Implementation. Plus an agentic reconciliation system (~95% detection accuracy), a crypto forecaster (LSTM + ARIMA), and a CNN reading handwriting at ~98%."
+      a: "Live Power BI dashboards you can open from the Projects section, the Pradhan Mantri Family Care Tracker Pilot Project Dashboard, an HR Dashboard, and a Governance Dashboard for the Ministry of Statistics and Programme Implementation. Plus an agentic reconciliation system (~95% detection accuracy), a crypto forecaster (LSTM + ARIMA), and a CNN reading handwriting at ~98%."
     },
     {
       q: 'tell me about the summit',
-      a: "2026, New Delhi — the AI Impact Summit, India's flagship global AI gathering under MeitY. Vansh was an organising head: sessions, panels, logistics, dignitaries, all herded on schedule for a week. Evidence lives in the Field Notes section — he's the one in the suit who still looks rested."
+      a: "2026, New Delhi, the AI Impact Summit, India's flagship global AI gathering under MeitY. Vansh was an organising head: sessions, panels, logistics, dignitaries, all herded on schedule for a week. Evidence lives in the Field Notes section, he's the one in the suit who still looks rested."
     },
     {
       q: 'is he open to opportunities?',
-      a: "He's settled in at Orange Business, but interesting conversations about data and AI work always get a reply — usually before CapCut finishes exporting.",
+      a: "He's settled in at Orange Business, but interesting conversations about data and AI work always get a reply, usually before CapCut finishes exporting.",
       links: [
         { label: 'vanshpuri.tech@gmail.com', href: 'mailto:vanshpuri.tech@gmail.com' },
         { label: 'LinkedIn ↗', href: 'https://linkedin.com/in/vanshpuri25/' }
@@ -1111,7 +1127,7 @@
     },
     {
       q: 'something human, please',
-      a: "Off the clock: he coordinated placement drives for his entire campus for two years, switches between English, Hindi, French and German mid-sentence, and collects certifications the way other people collect stamps. And once work's over? He's arguing with CapCut over an edit for the next 45 minutes. I exist because his memory clocks out before he does — his words, not mine."
+      a: "Off the clock: he coordinated placement drives for his entire campus for two years, switches between English, Hindi, French and German mid-sentence, and collects certifications the way other people collect stamps. And once work's over? He's arguing with CapCut over an edit for the next 45 minutes. I exist because his memory clocks out before he does, his words, not mine."
     }
   ];
 
@@ -1182,7 +1198,7 @@
     var dots = addDots();
     await sleep(RM ? 60 : 700);
     dots.innerHTML = '';
-    await typeInto(dots, "Hey — I'm CrazyPurii. Why do I exist? Because Vansh's memory clocks out before he does... and once work's over, he's probably busy arguing with CapCut over an edit for the next 45 minutes. So the questions come to me — ask away.");
+    await typeInto(dots, "Hey, I'm CrazyPurii. Why do I exist? Because Vansh's memory clocks out before he does... and once work's over, he's probably busy arguing with CapCut over an edit for the next 45 minutes. So the questions come to me, ask away.");
     busy = false; renderChips();
   }
 
